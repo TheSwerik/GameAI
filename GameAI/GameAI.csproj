@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFramework>net48</TargetFramework>
+        <TargetFrameworks>net48;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
 <!--        <TargetFramework>netcoreapp3.1</TargetFramework>-->
         <RootNamespace>GameAI</RootNamespace>
         <Title>Generational AI Library</Title>
