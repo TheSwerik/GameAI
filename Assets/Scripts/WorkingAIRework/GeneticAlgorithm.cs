@@ -9,8 +9,8 @@ namespace WorkingAIRework
 		public int Elitism;
 		public float MutationRate;
 		private float fitnessSum;
-		private List<WorkingAI.DNA<T>> newPopulation;
-		public List<WorkingAI.DNA<T>> Population { get; private set; }
+		private List<WorkingAIRework.DNA<T>> newPopulation;
+		public List<WorkingAIRework.DNA<T>> Population { get; private set; }
 		public int Generation { get; private set; }
 		public float BestFitness { get; private set; }
 		public T[] BestGenes { get; private set; }
@@ -26,8 +26,8 @@ namespace WorkingAIRework
 			Generation = 1;
 			Elitism = elitism;
 			MutationRate = mutationRate;
-			Population = new List<WorkingAI.DNA<T>>(populationSize);
-			newPopulation = new List<WorkingAI.DNA<T>>(populationSize);
+			Population = new List<WorkingAIRework.DNA<T>>(populationSize);
+			newPopulation = new List<WorkingAIRework.DNA<T>>(populationSize);
 			this.random = random;
 			this.dnaSize = dnaSize;
 			this.getRandomGene = getRandomGene;
@@ -37,7 +37,7 @@ namespace WorkingAIRework
 
 			for (int i = 0; i < populationSize; i++)
 			{
-				Population.Add(new WorkingAI.DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
+				Population.Add(new WorkingAIRework.DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
 			}
 		}
 
@@ -63,10 +63,10 @@ namespace WorkingAIRework
 				}
 				else if (i < Population.Count || crossoverNewDNA)
 				{
-					WorkingAI.DNA<T> parent1 = ChooseParent();
-					WorkingAI.DNA<T> parent2 = ChooseParent();
+					WorkingAIRework.DNA<T> parent1 = ChooseParent();
+					WorkingAIRework.DNA<T> parent2 = ChooseParent();
 
-					WorkingAI.DNA<T> child = parent1.Crossover(parent2);
+					WorkingAIRework.DNA<T> child = parent1.Crossover(parent2);
 
 					child.Mutate(MutationRate);
 
@@ -74,18 +74,18 @@ namespace WorkingAIRework
 				}
 				else
 				{
-					newPopulation.Add(new WorkingAI.DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
+					newPopulation.Add(new WorkingAIRework.DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
 				}
 			}
 
-			List<WorkingAI.DNA<T>> tmpList = Population;
+			List<WorkingAIRework.DNA<T>> tmpList = Population;
 			Population = newPopulation;
 			newPopulation = tmpList;
 
 			Generation++;
 		}
 	
-		private int CompareDNA(WorkingAI.DNA<T> a, WorkingAI.DNA<T> b)
+		private int CompareDNA(WorkingAIRework.DNA<T> a, WorkingAIRework.DNA<T> b)
 		{
 			if (a.Fitness > b.Fitness) {
 				return -1;
@@ -99,7 +99,7 @@ namespace WorkingAIRework
 		private void CalculateFitness()
 		{
 			fitnessSum = 0;
-			WorkingAI.DNA<T> best = Population[0];
+			WorkingAIRework.DNA<T> best = Population[0];
 
 			for (int i = 0; i < Population.Count; i++)
 			{
@@ -115,7 +115,7 @@ namespace WorkingAIRework
 			best.Genes.CopyTo(BestGenes, 0);
 		}
 
-		private WorkingAI.DNA<T> ChooseParent()
+		private WorkingAIRework.DNA<T> ChooseParent()
 		{
 			double randomNumber = random.NextDouble() * fitnessSum;
 
