@@ -82,8 +82,7 @@ public class TestShakespeare : MonoBehaviour
     private float FitnessFunction(int index)
     {
         var score = _ga.Population[index].Genes.Where((c, i) => c == targetString[i]).Count();
-        return (float) score / targetString.Length;
-        // return Mathf.Pow(2, (float) score / targetString.Length) - 1;
+        return Mathf.Pow(2, (float) score / targetString.Length) - 1;
     }
 
     private void UpdateText(DNA<char> bestDna, int generation, int popSize, Func<int, char[]> getGenes)
