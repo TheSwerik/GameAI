@@ -1,0 +1,48 @@
+﻿environment:
+  my_version_number: 1.0.0            # DONT FORGET TO CHANGE IS IN THE ISS FILE
+  project_name: GameAI            # DONT FORGET TO CHANGE IS IN THE ISS FILE
+
+matrix:
+  fast_finish: true
+
+version: $(my_version_number).{build}
+
+skip_tags: true
+
+configuration: Release
+
+before_build:
+  - ps: nuget restore -Verbosity quiet
+
+dotnet_csproj:
+  patch: true
+  file: '$(project_name)\$(project_name).csproj'
+  version: '$(my_version_number)'
+  package_version: '$(my_version_number)'
+  assembly_version: '$(my_version_number)'
+  file_version: '$(my_version_number)'
+  informational_version: '$(my_version_number)'
+
+build:
+  project: $(project_name)/$(project_name).csproj
+  verbosity: minimal
+  parallel: true
+  publish_nuget: true
+
+for:
+  - branches:
+      only:
+        - master
+
+    deploy:
+      - provider: NuGet
+        api_key:
+          secure: dvBoUwBIXmJhZm9jD5jxnU5FjrHji0KMbTMxgui4jLBnUbFUkBoDN81yuhevoOFo
+        artifact: /.*(\.|\.s)nupkg/
+
+      - provider: NuGet
+        api_key:
+          secure: t+q9dcBPFxzZdmdGxIahNaP0GHE90XdbEHHVMrmroJpFSCkM3d3tQ2QOtPYQTBpu
+        server: https://nuget.pkg.github.com/TheSwerik/index.json
+        artifact: /.*(\.|\.s)nupkg/
+        username: TheSwerik
