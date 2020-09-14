@@ -76,7 +76,7 @@ namespace AI
                 if (t.Fitness > fitnessThreshold) return t;
                 else fitnessThreshold -= t.Fitness;
 
-            return null;
+            return Population[Population.Count - 1];
         }
     }
 }
