@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AI
 {
     public class GeneticAlgorithm<T>
     {
-        public List<DNA<T>> Population { get; private set; }
-        public int Generation { get; private set; }
+        private readonly Random _random;
+        public float FitnessSum;
         public float MutationRate;
-        private Random _random;
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene,
-                                Func<float, int> calculateFitness, float mutationRate = 0.01f)
+                                Func<int, float> calculateFitness, float mutationRate = 0.01f)
         {
             Generation = 1;
             MutationRate = mutationRate;
@@ -21,6 +21,10 @@ namespace AI
                 Population.Add(new DNA<T>(dnaSize, random, getRandomGene, calculateFitness));
         }
 
+        public List<DNA<T>> Population { get; private set; }
+        public int Generation { get; private set; }
+        public DNA<T> BestDNA { get; private set; }
+
         public void NewGeneration()
         {
             CalculateFitness();
@@ -29,8 +33,8 @@ namespace AI
 
             for (var i = 0; i < Population.Count; i++)
             {
-                var parent1 = Population[0];
-                var parent2 = Population[0];
+                var parent1 = ChooseParent();
+                var parent2 = ChooseParent();
 
                 var child = parent1.Crossover(parent2);
                 child.Mutate(MutationRate);
@@ -41,6 +45,21 @@ namespace AI
             Generation++;
         }
 
-        private void CalculateFitness() { throw new NotImplementedException(); }
+        private void CalculateFitness()
+        {
+            FitnessSum = 0;
+            for (var i = 0; i < Population.Count; i++) FitnessSum += Population[i].CalculateFitness(i);
+            BestDNA = Population.Max();
+        }
+
+        private DNA<T> ChooseParent()
+        {
+            var fitnessThreshold = _random.NextDouble() * FitnessSum;
+            foreach (var t in Population)
+                if (t.Fitness > fitnessThreshold) return t;
+                else fitnessThreshold -= t.Fitness;
+
+            return null;
+        }
     }
 }
