@@ -78,11 +78,11 @@ namespace AI
         private DNA<T> ChooseParent()
         {
             var fitnessThreshold = _random.NextDouble() * _fitnessSum;
-            foreach (var t in Population)
-                if (t.Fitness > fitnessThreshold) return t;
-                else fitnessThreshold -= t.Fitness;
+            foreach (var dna in Population)
+                if (dna.Fitness > fitnessThreshold) return dna;
+                else fitnessThreshold -= dna.Fitness;
 
-            return Population[Population.Count - 1];
+            return null;
         }
 
         #endregion
