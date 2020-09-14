@@ -8,7 +8,6 @@ namespace AI
         #region Attributes
 
         public float Fitness { get; private set; }
-
         public readonly T[] Genes;
         private readonly Random _random;
         private readonly Func<T> _getRandomGene;
@@ -23,7 +22,7 @@ namespace AI
             Genes = new T[size];
 
             if (!shouldInitGenes) return;
-            for (var i = 0; i < Genes.Length; i++) Genes[i] = getRandomGene();
+            for (var i = 0; i < size; i++) Genes[i] = getRandomGene();
         }
 
         #endregion
@@ -37,7 +36,7 @@ namespace AI
             var child = new DNA<T>(Genes.Length, _random, _getRandomGene, CalculateFitness, false);
 
             for (var i = 0; i < Genes.Length; i++)
-                child.Genes[i] = _random.NextDouble() < .5 ? Genes[i] : other.Genes[i];
+                child.Genes[i] = _random.NextDouble() < 0.5 ? Genes[i] : other.Genes[i];
 
             return child;
         }
