@@ -74,7 +74,7 @@ public class TestShakespeare : MonoBehaviour
     {
         _ga.NewGeneration();
         UpdateText(_ga.BestDNA, _ga.Generation, _ga.Population.Count, j => _ga.Population[j].Genes);
-        if (_ga.BestDNA.Fitness >= 1) enabled = false;
+        if (_ga.BestDNA.Fitness >= .9999998) enabled = false;
     }
 
     #endregion

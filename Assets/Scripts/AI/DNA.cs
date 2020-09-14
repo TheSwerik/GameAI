@@ -51,8 +51,19 @@ namespace AI
 
         #region Overrides
 
-        public static bool operator >(DNA<T> a, DNA<T> b) { return a.Fitness > b.Fitness; }
-        public static bool operator <(DNA<T> a, DNA<T> b) { return a.Fitness < b.Fitness; }
+        public static bool operator >(DNA<T> a, DNA<T> b)
+        {
+            if (a == null) return false;
+            if (b == null) return true;
+            return a.Fitness > b.Fitness;
+        }
+
+        public static bool operator <(DNA<T> a, DNA<T> b)
+        {
+            if (a == null) return true;
+            if (b == null) return false;
+            return a.Fitness < b.Fitness;
+        }
 
         public int CompareTo(object obj)
         {
