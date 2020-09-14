@@ -1109,6 +1109,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1446890002}
   - component: {fileID: 1446890003}
+  - component: {fileID: 1446890004}
+  - component: {fileID: 1446890005}
   m_Layer: 0
   m_Name: TestShakespeare
   m_TagString: Untagged
@@ -1137,12 +1139,60 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1446890001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38e1a4cfcd63464ab4300c9900f6b09b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetString: To be, or not to be? That is the Question.
+  validCharacters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.|!#$%&/()=? '
+  populationSize: 200
+  mutationRate: 0.01
+  elitism: 5
+  numCharsPerText: 15000
+  targetText: {fileID: 264524363}
+  bestText: {fileID: 248797625}
+  bestFitnessText: {fileID: 133465560}
+  numGenerationsText: {fileID: 2019048028}
+  populationTextParent: {fileID: 1023496165}
+  textPrefab: {fileID: 114976746338336432, guid: cbbb134eeef49804ea8ee1e41d50d2a1, type: 3}
+--- !u!114 &1446890004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446890001}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b52726ec8fd34b929862d3a06d3f20fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetString: To be, or not to be, that is the question.
+  validCharacters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.|!#$%&/()=? '
+  populationSize: 200
+  mutationRate: 0.01
+  elitism: 5
+  numCharsPerText: 15000
+  targetText: {fileID: 264524363}
+  bestText: {fileID: 248797625}
+  bestFitnessText: {fileID: 133465560}
+  numGenerationsText: {fileID: 2019048028}
+  populationTextParent: {fileID: 1023496165}
+  textPrefab: {fileID: 114976746338336432, guid: cbbb134eeef49804ea8ee1e41d50d2a1, type: 3}
+--- !u!114 &1446890005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446890001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02ad756fb824bce9b05a3bd85056bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetString: To be, or not to be, that is the question.
   validCharacters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.|!#$%&/()=? '
   populationSize: 200
   mutationRate: 0.01
