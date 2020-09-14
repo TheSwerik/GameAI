@@ -3,7 +3,7 @@ using System;
 namespace WorkingAIRework
 {
     // ReSharper disable once InconsistentNaming
-    public class DNA<T>
+    public class DNA<T> : IComparable
     {
         #region Attributes
 

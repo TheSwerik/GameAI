@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace WorkingAIRework
 {
@@ -34,7 +33,7 @@ namespace WorkingAIRework
         public void NewGeneration()
         {
             CalculateFitness();
-            Population = Population.OrderByDescending(p => p.Fitness).ToList();
+            Population.Sort();
             _newPopulation.Clear();
 
             for (var i = 0; i < Population.Count; i++)
