@@ -5,9 +5,9 @@ public class AnalyzeDiff : MonoBehaviour
 {
     private void Awake()
     {
-        DNA();
+        // DNA();
         GA();
-        TS();
+        // TS();
     }
 
     private void DNA()

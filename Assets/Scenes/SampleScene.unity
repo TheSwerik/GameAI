@@ -1111,6 +1111,7 @@ GameObject:
   - component: {fileID: 1446890003}
   - component: {fileID: 1446890004}
   - component: {fileID: 1446890005}
+  - component: {fileID: 1446890006}
   m_Layer: 0
   m_Name: TestShakespeare
   m_TagString: Untagged
@@ -1204,6 +1205,18 @@ MonoBehaviour:
   numGenerationsText: {fileID: 2019048028}
   populationTextParent: {fileID: 1023496165}
   textPrefab: {fileID: 114976746338336432, guid: cbbb134eeef49804ea8ee1e41d50d2a1, type: 3}
+--- !u!114 &1446890006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446890001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0c604cdd13140e0bab7319ff402bd83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1526153739
 GameObject:
   m_ObjectHideFlags: 0

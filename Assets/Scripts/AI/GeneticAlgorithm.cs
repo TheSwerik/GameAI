@@ -5,6 +5,14 @@ namespace AI
 {
     public class GeneticAlgorithm<T>
     {
+        #region Attributes
+
+        public List<DNA<T>> Population { get; private set; }
+        public int Generation { get; private set; }
+
+        // ReSharper disable once InconsistentNaming
+        public DNA<T> BestDNA { get; private set; }
+
         private readonly int _elitism;
         private readonly float _mutationRate;
         private readonly Random _random;
@@ -24,11 +32,9 @@ namespace AI
                 Population.Add(new DNA<T>(dnaSize, random, getRandomGene, calculateFitness));
         }
 
-        public List<DNA<T>> Population { get; private set; }
-        public int Generation { get; private set; }
+        #endregion
 
-        // ReSharper disable once InconsistentNaming
-        public DNA<T> BestDNA { get; private set; }
+        #region Methods
 
         public void NewGeneration()
         {
@@ -78,5 +84,7 @@ namespace AI
 
             return Population[Population.Count - 1];
         }
+
+        #endregion
     }
 }
