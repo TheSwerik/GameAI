@@ -5,19 +5,14 @@ namespace WorkingAIRework
 {
     public class GeneticAlgorithm<T>
     {
-        private readonly Random _random;
+        private readonly int _dnaSize;
         private readonly int _elitism;
+        private readonly Func<int, float> _fitnessFunction;
+        private readonly Func<T> _getRandomGene;
         private readonly float _mutationRate;
+        private readonly Random _random;
         private float _fitnessSum;
         private List<DNA<T>> _newPopulation;
-        public List<DNA<T>> Population { get; private set; }
-        public int Generation { get; private set; }
-        public float BestFitness { get; private set; }
-        public T[] BestGenes { get; }
-
-        private readonly int _dnaSize;
-        private readonly Func<T> _getRandomGene;
-        private readonly Func<int, float> _fitnessFunction;
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene,
                                 Func<int, float> fitnessFunction,
@@ -39,6 +34,11 @@ namespace WorkingAIRework
                 Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction));
         }
 
+        public List<DNA<T>> Population { get; private set; }
+        public int Generation { get; private set; }
+        public float BestFitness { get; private set; }
+        public T[] BestGenes { get; }
+
         public void NewGeneration(int numNewDna = 0, bool crossoverNewDna = false)
         {
             var finalCount = Population.Count + numNewDna;
@@ -54,7 +54,6 @@ namespace WorkingAIRework
             _newPopulation.Clear();
 
             for (var i = 0; i < Population.Count; i++)
-            {
                 if (i < _elitism && i < Population.Count)
                 {
                     _newPopulation.Add(Population[i]);
@@ -74,7 +73,6 @@ namespace WorkingAIRework
                 {
                     _newPopulation.Add(new DNA<T>(_dnaSize, _random, _getRandomGene, _fitnessFunction));
                 }
-            }
 
             var tmpList = Population;
             Population = _newPopulation;
