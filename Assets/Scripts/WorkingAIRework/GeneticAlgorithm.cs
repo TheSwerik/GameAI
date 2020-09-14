@@ -20,7 +20,7 @@ namespace WorkingAIRework
         private List<DNA<T>> _newPopulation;
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene,
-                                Func<int, float> fitnessFunction, int elitism, float mutationRate = 0.01f)
+                                Func<int, float> calculateFitness, int elitism, float mutationRate = 0.01f)
         {
             Generation = 1;
             _mutationRate = mutationRate;
@@ -29,7 +29,7 @@ namespace WorkingAIRework
             _newPopulation = new List<DNA<T>>(populationSize);
             Population = new List<DNA<T>>(populationSize);
             for (var i = 0; i < populationSize; i++)
-                Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction));
+                Population.Add(new DNA<T>(dnaSize, random, getRandomGene, calculateFitness));
         }
 
         #endregion
