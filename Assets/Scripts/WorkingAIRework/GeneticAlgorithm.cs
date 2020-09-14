@@ -52,7 +52,6 @@ namespace WorkingAIRework
                 _newPopulation.Add(child);
             }
 
-
             var tmp = Population;
             Population = _newPopulation;
             _newPopulation = tmp;
@@ -63,7 +62,6 @@ namespace WorkingAIRework
         private void CalculateFitness()
         {
             _fitnessSum = 0;
-
             for (var i = 0; i < Population.Count; i++)
             {
                 _fitnessSum += Population[i].CalculateFitness(i);
@@ -73,11 +71,10 @@ namespace WorkingAIRework
 
         private DNA<T> ChooseParent()
         {
-            var randomNumber = _random.NextDouble() * _fitnessSum;
-            foreach (var t in Population)
-                if (t.Fitness > randomNumber) return t;
-                else randomNumber -= t.Fitness;
-
+            var fitnessThreshold = _random.NextDouble() * _fitnessSum;
+            foreach (var dna in Population)
+                if (dna.Fitness > fitnessThreshold) return dna;
+                else fitnessThreshold -= dna.Fitness;
 
             return null;
         }
