@@ -6,6 +6,7 @@ namespace AI
     public class GeneticAlgorithm<T>
     {
         private readonly Random _random;
+        private List<DNA<T>> _newPopulation;
         public float FitnessSum;
         public float MutationRate;
 
@@ -15,6 +16,7 @@ namespace AI
             Generation = 1;
             MutationRate = mutationRate;
             _random = random;
+            _newPopulation = new List<DNA<T>>(populationSize);
             Population = new List<DNA<T>>(populationSize);
             for (var i = 0; i < populationSize; i++)
                 Population.Add(new DNA<T>(dnaSize, random, getRandomGene, calculateFitness));
@@ -28,8 +30,7 @@ namespace AI
         {
             CalculateFitness();
 
-            var newPopulation = new List<DNA<T>>(Population.Count);
-
+            _newPopulation.Clear();
             for (var i = 0; i < Population.Count; i++)
             {
                 var parent1 = ChooseParent();
@@ -37,10 +38,13 @@ namespace AI
 
                 var child = parent1.Crossover(parent2);
                 child.Mutate(MutationRate);
-                newPopulation.Add(child);
+                _newPopulation.Add(child);
             }
 
-            Population = newPopulation;
+            var tmp = Population;
+            Population = _newPopulation;
+            _newPopulation = tmp;
+
             Generation++;
         }
 
