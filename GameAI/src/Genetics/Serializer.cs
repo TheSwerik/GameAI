@@ -12,13 +12,13 @@ namespace GameAI.Genetics
         {
             var x = JsonConvert.SerializeObject(algorithm.Population);
             x += splitLine + JsonConvert.SerializeObject(algorithm.Generation);
-            using var file = File.CreateText(@"D:\Dokumente");
+            using var file = File.CreateText(@"D:\Dokumente\test.gai");
             file.Write(x);
         }
 
         public static void Load(ref GeneticAlgorithm<T> algorithm)
         {
-            var file = File.ReadAllText(@"D:\Dokumente").Split(splitLine.ToCharArray());
+            var file = File.ReadAllText(@"D:\Dokumente\test.gai").Split(splitLine.ToCharArray());
             algorithm.Load(JsonConvert.DeserializeObject<List<DNA<T>>>(file[0]),
                            JsonConvert.DeserializeObject<int>(file[1]));
         }
