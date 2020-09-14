@@ -14,10 +14,11 @@
         <PackageProjectUrl>https://github.com/TheSwerik/GameAI</PackageProjectUrl>
         <RepositoryUrl>https://github.com/TheSwerik/GameAI</RepositoryUrl>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <LangVersion>8</LangVersion>
         <!--        <PackageIcon>icon.png</PackageIcon>-->
     </PropertyGroup>
 
     <ItemGroup>
-        <!--        <None Include="..\icon.png" Pack="true" Visible="false" PackagePath=""/>-->
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3"/>
     </ItemGroup>
 </Project>
