@@ -8,7 +8,7 @@ namespace WorkingAIRework
         #region Attributes
 
         public float Fitness { get; private set; }
-        public T[] Genes { get; }
+        public readonly T[] Genes;
         private readonly Random _random;
         private readonly Func<T> _getRandomGene;
         private readonly Func<int, float> _calculateFitness;

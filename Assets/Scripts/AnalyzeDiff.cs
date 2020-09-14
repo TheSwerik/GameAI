@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 
 public class AnalyzeDiff : MonoBehaviour
@@ -22,10 +21,10 @@ public class AnalyzeDiff : MonoBehaviour
 
         for (var i = 0; i < (isDna1Longer <= 0 ? dna1.Length : dna2.Length); i++)
         {
-            var isLine1Longer = string.Compare(dna1[i], dna2[i], StringComparison.InvariantCulture);
+            var isLine1Longer = dna1[i].Length.CompareTo(dna2[i].Length);
             if (isLine1Longer == 0) continue;
             Debug.Log($"Difference in line {i}:");
-            for (var j = 0; j < (isLine1Longer <= 0 ? dna1[i].Length : dna2[i].Length); j++)
+            for (var j = 0; j < (isLine1Longer < 0 ? dna1[i].Length : dna2[i].Length); j++)
                 if (dna1[i][j] != dna2[i][j])
                     Debug.Log($"Difference in char {j}: DNA1: {dna1[i][j]} DNA2: {dna2[i][j]}");
         }
@@ -44,7 +43,7 @@ public class AnalyzeDiff : MonoBehaviour
 
         for (var i = 0; i < (isDna1Longer <= 0 ? ga1.Length : ga2.Length); i++)
         {
-            var isLine1Longer = string.Compare(ga1[i], ga2[i], StringComparison.InvariantCulture);
+            var isLine1Longer = ga1[i].Length.CompareTo(ga2[i].Length);
             if (isLine1Longer == 0) continue;
             Debug.Log($"Difference in line {i}:");
             for (var j = 0; j < (isLine1Longer <= 0 ? ga1[i].Length : ga2[i].Length); j++)
@@ -64,7 +63,7 @@ public class AnalyzeDiff : MonoBehaviour
 
         for (var i = 0; i < (isDna1Longer <= 0 ? ts1.Length : ts2.Length); i++)
         {
-            var isLine1Longer = string.Compare(ts1[i], ts2[i], StringComparison.InvariantCulture);
+            var isLine1Longer = ts1[i].Length.CompareTo(ts2[i].Length);
             if (isLine1Longer == 0) continue;
             Debug.Log($"Difference in line {i}:");
             for (var j = 0; j < (isLine1Longer <= 0 ? ts1[i].Length : ts2[i].Length); j++)
