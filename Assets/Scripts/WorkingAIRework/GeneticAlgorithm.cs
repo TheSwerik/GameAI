@@ -75,7 +75,7 @@ namespace WorkingAIRework
         {
             var randomNumber = _random.NextDouble() * _fitnessSum;
             foreach (var t in Population)
-                if (randomNumber < t.Fitness) return t;
+                if (t.Fitness > randomNumber) return t;
                 else randomNumber -= t.Fitness;
 
 
