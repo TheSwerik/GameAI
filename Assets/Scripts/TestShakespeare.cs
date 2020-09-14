@@ -66,8 +66,7 @@ public class TestShakespeare : MonoBehaviour
         _random = new Random();
         _ga = new GeneticAlgorithm<char>(populationSize, targetString.Length, _random,
                                          () => validCharacters[_random.Next(validCharacters.Length)],
-                                         FitnessFunction, mutationRate);
-        // FitnessFunction, elitism, mutationRate);
+                                         FitnessFunction, elitism, mutationRate);
     }
 
     private void Update()

@@ -7,15 +7,17 @@ namespace AI
     {
         private readonly Random _random;
         private List<DNA<T>> _newPopulation;
+        public int Elitism;
         public float FitnessSum;
         public float MutationRate;
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene,
-                                Func<int, float> calculateFitness, float mutationRate = 0.01f)
+                                Func<int, float> calculateFitness, int elitism, float mutationRate = 0.01f)
         {
             Generation = 1;
             MutationRate = mutationRate;
             _random = random;
+            Elitism = elitism;
             _newPopulation = new List<DNA<T>>(populationSize);
             Population = new List<DNA<T>>(populationSize);
             for (var i = 0; i < populationSize; i++)
@@ -29,10 +31,17 @@ namespace AI
         public void NewGeneration()
         {
             CalculateFitness();
-
+            Population.Sort();
             _newPopulation.Clear();
+
             for (var i = 0; i < Population.Count; i++)
             {
+                if (i < Elitism)
+                {
+                    _newPopulation.Add(Population[i]);
+                    continue;
+                }
+
                 var parent1 = ChooseParent();
                 var parent2 = ChooseParent();
 
