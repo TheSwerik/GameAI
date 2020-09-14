@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WorkingAIRework
 {
@@ -33,7 +34,7 @@ namespace WorkingAIRework
         public void NewGeneration()
         {
             CalculateFitness();
-            Population.Sort(CompareDNA);
+            Population = Population.OrderByDescending(p => p.Fitness).ToList();
             _newPopulation.Clear();
 
             for (var i = 0; i < Population.Count; i++)
