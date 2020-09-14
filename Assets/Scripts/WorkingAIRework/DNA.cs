@@ -2,58 +2,43 @@ using System;
 
 namespace WorkingAIRework
 {
-	// ReSharper disable once InconsistentNaming
-	public class DNA<T>
-	{
-		public T[] Genes { get; private set; }
-		public float Fitness { get; private set; }
-		private readonly Random _random;
-		private readonly Func<T> _getRandomGene;
-		private readonly Func<int, float> _fitnessFunction;
+    // ReSharper disable once InconsistentNaming
+    public class DNA<T>
+    {
+        private readonly Func<int, float> _fitnessFunction;
+        private readonly Func<T> _getRandomGene;
+        private readonly Random _random;
 
-		public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction, bool shouldInitGenes = true)
-		{
-			Genes = new T[size];
-			this._random = random;
-			this._getRandomGene = getRandomGene;
-			this._fitnessFunction = fitnessFunction;
+        public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
+                   bool shouldInitGenes = true)
+        {
+            Genes = new T[size];
+            _random = random;
+            _getRandomGene = getRandomGene;
+            _fitnessFunction = fitnessFunction;
 
-			if (shouldInitGenes)
-			{
-				for (int i = 0; i < Genes.Length; i++)
-				{
-					Genes[i] = getRandomGene();
-				}
-			}
-		}
+            if (!shouldInitGenes) return;
+            for (var i = 0; i < Genes.Length; i++) Genes[i] = getRandomGene();
+        }
 
-		public float CalculateFitness(int index)
-		{
-			Fitness = _fitnessFunction(index);
-			return Fitness;
-		}
+        public T[] Genes { get; }
+        public float Fitness { get; private set; }
 
-		public DNA<T> Crossover(DNA<T> otherParent)
-		{
-			DNA<T> child = new DNA<T>(Genes.Length, _random, _getRandomGene, _fitnessFunction, shouldInitGenes: false);
+        public float CalculateFitness(int index) { return Fitness = _fitnessFunction(index); }
 
-			for (int i = 0; i < Genes.Length; i++)
-			{
-				child.Genes[i] = _random.NextDouble() < 0.5 ? Genes[i] : otherParent.Genes[i];
-			}
+        public DNA<T> Crossover(DNA<T> otherParent)
+        {
+            var child = new DNA<T>(Genes.Length, _random, _getRandomGene, _fitnessFunction, false);
+            for (var i = 0; i < Genes.Length; i++)
+                child.Genes[i] = _random.NextDouble() < 0.5 ? Genes[i] : otherParent.Genes[i];
+            return child;
+        }
 
-			return child;
-		}
-
-		public void Mutate(float mutationRate)
-		{
-			for (int i = 0; i < Genes.Length; i++)
-			{
-				if (_random.NextDouble() < mutationRate)
-				{
-					Genes[i] = _getRandomGene();
-				}
-			}
-		}
-	}
+        public void Mutate(float mutationRate)
+        {
+            for (var i = 0; i < Genes.Length; i++)
+                if (_random.NextDouble() < mutationRate)
+                    Genes[i] = _getRandomGene();
+        }
+    }
 }
