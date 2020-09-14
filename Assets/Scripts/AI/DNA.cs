@@ -33,7 +33,7 @@ namespace AI
 
         public DNA<T> Crossover(DNA<T> otherParent)
         {
-            var child = new DNA<T>(Genes.Length, _random, _getRandomGene, CalculateFitness, false);
+            var child = new DNA<T>(Genes.Length, _random, _getRandomGene, _calculateFitness, false);
 
             for (var i = 0; i < Genes.Length; i++)
                 child.Genes[i] = _random.NextDouble() < 0.5 ? Genes[i] : otherParent.Genes[i];
