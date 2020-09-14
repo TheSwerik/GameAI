@@ -13,6 +13,8 @@ namespace WorkingAIRework
         private readonly Random _random;
         private float _fitnessSum;
         private List<DNA<T>> _newPopulation;
+        // ReSharper disable once InconsistentNaming
+        public DNA<T> BestDNA { get; private set; }
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene,
                                 Func<int, float> fitnessFunction,
@@ -28,16 +30,12 @@ namespace WorkingAIRework
             _getRandomGene = getRandomGene;
             _fitnessFunction = fitnessFunction;
 
-            BestGenes = new T[dnaSize];
-
             for (var i = 0; i < populationSize; i++)
                 Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction));
         }
 
         public List<DNA<T>> Population { get; private set; }
         public int Generation { get; private set; }
-        public float BestFitness { get; private set; }
-        public T[] BestGenes { get; }
 
         public void NewGeneration()
         {
@@ -78,16 +76,12 @@ namespace WorkingAIRework
         private void CalculateFitness()
         {
             _fitnessSum = 0;
-            var best = Population[0];
 
             for (var i = 0; i < Population.Count; i++)
             {
                 _fitnessSum += Population[i].CalculateFitness(i);
-                if (Population[i].Fitness > best.Fitness) best = Population[i];
+                if (BestDNA == null || Population[i].Fitness > BestDNA.Fitness) BestDNA = Population[i];
             }
-
-            BestFitness = best.Fitness;
-            best.Genes.CopyTo(BestGenes, 0);
         }
 
         private DNA<T> ChooseParent()

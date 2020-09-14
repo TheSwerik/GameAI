@@ -72,10 +72,8 @@ public class TestShakespeareRework : MonoBehaviour
     private void Update()
     {
         _ga.NewGeneration();
-        // UpdateText(_ga.BestDNA, _ga.Generation, _ga.Population.Count, j => _ga.Population[j].Genes);
-        // if (_ga.BestDNA.Fitness >= .9999998) enabled = false;
-        UpdateText(_ga.BestGenes,_ga.BestFitness, _ga.Generation, _ga.Population.Count, j => _ga.Population[j].Genes);
-        if (_ga.BestFitness >= .9999998) enabled = false;
+        UpdateText(_ga.BestDNA, _ga.Generation, _ga.Population.Count, j => _ga.Population[j].Genes);
+        if (_ga.BestDNA.Fitness >= .9999998) enabled = false;
     }
 
     #endregion
@@ -86,13 +84,10 @@ public class TestShakespeareRework : MonoBehaviour
         return Mathf.Pow(2, (float) score / targetString.Length) - 1;
     }
 
-    // private void UpdateText(WorkingAIRework.DNA<char> bestDna, int generation, int popSize, Func<int, char[]> getGenes)
-    private void UpdateText(char[] bestGenes, float bestFitness, int generation, int popSize, Func<int, char[]> getGenes)
+    private void UpdateText(WorkingAIRework.DNA<char> bestDna, int generation, int popSize, Func<int, char[]> getGenes)
     {
-        // bestText.text = new string(bestDna.Genes);
-        // bestFitnessText.text = bestDna.Fitness.ToString(CultureInfo.InvariantCulture);
-        bestText.text = new string(bestGenes);
-        bestFitnessText.text = bestFitness.ToString();
+        bestText.text = new string(bestDna.Genes);
+        bestFitnessText.text = bestDna.Fitness.ToString(CultureInfo.InvariantCulture);
         numGenerationsText.text = generation.ToString();
 
         for (var i = 0; i < _textList.Count; i++)
