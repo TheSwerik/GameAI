@@ -62,9 +62,9 @@ namespace WorkingAIRework
             }
 
 
-            var tmpList = Population;
+            var tmp = Population;
             Population = _newPopulation;
-            _newPopulation = tmpList;
+            _newPopulation = tmp;
 
             Generation++;
         }
