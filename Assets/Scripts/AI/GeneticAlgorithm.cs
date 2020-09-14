@@ -5,19 +5,19 @@ namespace AI
 {
     public class GeneticAlgorithm<T>
     {
+        private readonly int _elitism;
+        private readonly float _mutationRate;
         private readonly Random _random;
+        private float _fitnessSum;
         private List<DNA<T>> _newPopulation;
-        public int Elitism;
-        public float FitnessSum;
-        public float MutationRate;
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene,
                                 Func<int, float> calculateFitness, int elitism, float mutationRate = 0.01f)
         {
             Generation = 1;
-            MutationRate = mutationRate;
+            _mutationRate = mutationRate;
             _random = random;
-            Elitism = elitism;
+            _elitism = elitism;
             _newPopulation = new List<DNA<T>>(populationSize);
             Population = new List<DNA<T>>(populationSize);
             for (var i = 0; i < populationSize; i++)
@@ -26,6 +26,8 @@ namespace AI
 
         public List<DNA<T>> Population { get; private set; }
         public int Generation { get; private set; }
+
+        // ReSharper disable once InconsistentNaming
         public DNA<T> BestDNA { get; private set; }
 
         public void NewGeneration()
@@ -36,7 +38,7 @@ namespace AI
 
             for (var i = 0; i < Population.Count; i++)
             {
-                if (i < Elitism)
+                if (i < _elitism)
                 {
                     _newPopulation.Add(Population[i]);
                     continue;
@@ -46,7 +48,7 @@ namespace AI
                 var parent2 = ChooseParent();
 
                 var child = parent1.Crossover(parent2);
-                child.Mutate(MutationRate);
+                child.Mutate(_mutationRate);
                 _newPopulation.Add(child);
             }
 
@@ -59,17 +61,17 @@ namespace AI
 
         private void CalculateFitness()
         {
-            FitnessSum = 0;
+            _fitnessSum = 0;
             for (var i = 0; i < Population.Count; i++)
             {
-                FitnessSum += Population[i].CalculateFitness(i);
+                _fitnessSum += Population[i].CalculateFitness(i);
                 if (Population[i] > BestDNA) BestDNA = Population[i];
             }
         }
 
         private DNA<T> ChooseParent()
         {
-            var fitnessThreshold = _random.NextDouble() * FitnessSum;
+            var fitnessThreshold = _random.NextDouble() * _fitnessSum;
             foreach (var t in Population)
                 if (t.Fitness > fitnessThreshold) return t;
                 else fitnessThreshold -= t.Fitness;
