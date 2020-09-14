@@ -60,12 +60,6 @@ namespace WorkingAIRework
             Generation++;
         }
 
-        private static int CompareDNA(DNA<T> a, DNA<T> b)
-        {
-            if (a > b) return -1;
-            return a < b ? 1 : 0;
-        }
-
         private void CalculateFitness()
         {
             _fitnessSum = 0;
