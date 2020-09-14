@@ -22,7 +22,7 @@ namespace WorkingAIRework
             Genes = new T[size];
 
             if (!shouldInitGenes) return;
-            for (var i = 0; i < Genes.Length; i++) Genes[i] = getRandomGene();
+            for (var i = 0; i < size; i++) Genes[i] = getRandomGene();
         }
 
         #endregion
