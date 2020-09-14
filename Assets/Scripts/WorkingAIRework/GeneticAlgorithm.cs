@@ -39,12 +39,8 @@ namespace WorkingAIRework
         public float BestFitness { get; private set; }
         public T[] BestGenes { get; }
 
-        public void NewGeneration(int numNewDna = 0, bool crossoverNewDna = false)
+        public void NewGeneration()
         {
-            var finalCount = Population.Count + numNewDna;
-
-            if (finalCount <= 0) return;
-
             if (Population.Count > 0)
             {
                 CalculateFitness();
@@ -54,25 +50,21 @@ namespace WorkingAIRework
             _newPopulation.Clear();
 
             for (var i = 0; i < Population.Count; i++)
-                if (i < _elitism && i < Population.Count)
+            {
+                if (i < _elitism)
                 {
                     _newPopulation.Add(Population[i]);
+                    continue;
                 }
-                else if (i < Population.Count || crossoverNewDna)
-                {
-                    var parent1 = ChooseParent();
-                    var parent2 = ChooseParent();
 
-                    var child = parent1.Crossover(parent2);
+                var parent1 = ChooseParent();
+                var parent2 = ChooseParent();
 
-                    child.Mutate(_mutationRate);
+                var child = parent1.Crossover(parent2);
+                child.Mutate(_mutationRate);
+                _newPopulation.Add(child);
+            }
 
-                    _newPopulation.Add(child);
-                }
-                else
-                {
-                    _newPopulation.Add(new DNA<T>(_dnaSize, _random, _getRandomGene, _fitnessFunction));
-                }
 
             var tmpList = Population;
             Population = _newPopulation;
