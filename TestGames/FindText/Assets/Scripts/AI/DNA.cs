@@ -64,7 +64,7 @@ namespace AI
 
         public int CompareTo(object obj)
         {
-            // if (obj is DNA<T> other) return Fitness.CompareTo(other.Fitness);
+            // The Comparison is Flipped so that Sorting is descending!
             if (obj is DNA<T> other) return other.Fitness.CompareTo(Fitness);
             return 0;
         }
