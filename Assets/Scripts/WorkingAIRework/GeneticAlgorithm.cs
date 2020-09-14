@@ -12,25 +12,23 @@ namespace WorkingAIRework
         private List<DNA<T>> _newPopulation;
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene,
-                                Func<int, float> fitnessFunction,
-                                int elitism, float mutationRate = 0.01f)
+                                Func<int, float> fitnessFunction, int elitism, float mutationRate = 0.01f)
         {
             Generation = 1;
-            _elitism = elitism;
             _mutationRate = mutationRate;
-            Population = new List<DNA<T>>(populationSize);
-            _newPopulation = new List<DNA<T>>(populationSize);
+            _elitism = elitism;
             _random = random;
-
+            _newPopulation = new List<DNA<T>>(populationSize);
+            Population = new List<DNA<T>>(populationSize);
             for (var i = 0; i < populationSize; i++)
                 Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction));
         }
 
-        // ReSharper disable once InconsistentNaming
-        public DNA<T> BestDNA { get; private set; }
-
         public List<DNA<T>> Population { get; private set; }
         public int Generation { get; private set; }
+
+        // ReSharper disable once InconsistentNaming
+        public DNA<T> BestDNA { get; private set; }
 
         public void NewGeneration()
         {

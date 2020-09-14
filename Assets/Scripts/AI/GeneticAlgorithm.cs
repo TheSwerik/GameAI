@@ -16,8 +16,8 @@ namespace AI
         {
             Generation = 1;
             _mutationRate = mutationRate;
-            _random = random;
             _elitism = elitism;
+            _random = random;
             _newPopulation = new List<DNA<T>>(populationSize);
             Population = new List<DNA<T>>(populationSize);
             for (var i = 0; i < populationSize; i++)
