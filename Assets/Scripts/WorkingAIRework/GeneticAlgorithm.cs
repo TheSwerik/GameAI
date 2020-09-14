@@ -62,8 +62,8 @@ namespace WorkingAIRework
 
         private static int CompareDNA(DNA<T> a, DNA<T> b)
         {
-            if (a.Fitness > b.Fitness) return -1;
-            return a.Fitness < b.Fitness ? 1 : 0;
+            if (a > b) return -1;
+            return a < b ? 1 : 0;
         }
 
         private void CalculateFitness()
@@ -73,7 +73,7 @@ namespace WorkingAIRework
             for (var i = 0; i < Population.Count; i++)
             {
                 _fitnessSum += Population[i].CalculateFitness(i);
-                if (BestDNA == null || Population[i].Fitness > BestDNA.Fitness) BestDNA = Population[i];
+                if (Population[i] > BestDNA) BestDNA = Population[i];
             }
         }
 
@@ -81,10 +81,9 @@ namespace WorkingAIRework
         {
             var randomNumber = _random.NextDouble() * _fitnessSum;
             foreach (var t in Population)
-            {
                 if (randomNumber < t.Fitness) return t;
-                randomNumber -= t.Fitness;
-            }
+                else randomNumber -= t.Fitness;
+
 
             return null;
         }

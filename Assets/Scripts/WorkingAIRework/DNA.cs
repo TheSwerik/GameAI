@@ -7,11 +7,11 @@ namespace WorkingAIRework
     {
         #region Attributes
 
+        public float Fitness { get; private set; }
+        public T[] Genes { get; }
         private readonly Func<int, float> _fitnessFunction;
         private readonly Func<T> _getRandomGene;
         private readonly Random _random;
-        public T[] Genes { get; }
-        public float Fitness { get; private set; }
 
         public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
                    bool shouldInitGenes = true)
@@ -45,6 +45,33 @@ namespace WorkingAIRework
                 if (_random.NextDouble() < mutationRate)
                     Genes[i] = _getRandomGene();
         }
+
+        #region Overrides
+
+        public static bool operator >(DNA<T> a, DNA<T> b)
+        {
+            if (a == null) return false;
+            if (b == null) return true;
+            return a.Fitness > b.Fitness;
+        }
+
+        public static bool operator <(DNA<T> a, DNA<T> b)
+        {
+            if (a == null) return true;
+            if (b == null) return false;
+            return a.Fitness < b.Fitness;
+        }
+
+        public int CompareTo(object obj)
+        {
+            // The Comparison is Flipped so that Sorting is descending!
+            if (obj is DNA<T> other) return other.Fitness.CompareTo(Fitness);
+            return 0;
+        }
+
+        public override string ToString() { return $"{string.Join(", ", Genes)}\t|\tFitness: {Fitness}"; }
+
+        #endregion
 
         #endregion
     }
