@@ -64,8 +64,10 @@ public class TestShakespeare : MonoBehaviour
         }
 
         _random = new Random();
-        _ga = new GeneticAlgorithm<char>(populationSize, targetString.Length, _random, GetRandomCharacter,
-                                         FitnessFunction, elitism, mutationRate);
+        _ga = new GeneticAlgorithm<char>(populationSize, targetString.Length, _random,
+                                         () => validCharacters[_random.Next(validCharacters.Length)],
+                                         FitnessFunction, mutationRate);
+        // FitnessFunction, elitism, mutationRate);
     }
 
     private void Update()
@@ -77,15 +79,11 @@ public class TestShakespeare : MonoBehaviour
 
     #endregion
 
-    private char GetRandomCharacter() { return validCharacters[_random.Next(validCharacters.Length)]; }
-
     private float FitnessFunction(int index)
     {
-        var score = _ga.Population[index].Genes
-                       .Where((c, i) => c == targetString[i])
-                       .Aggregate<char, float>(0, (current, t) => current + 1);
-
-        return Mathf.Pow(2, score / targetString.Length) - 1;
+        var score = _ga.Population[index].Genes.Where((c, i) => c == targetString[i]).Count();
+        return (float) score / targetString.Length;
+        // return Mathf.Pow(2, (float) score / targetString.Length) - 1;
     }
 
     private void UpdateText(DNA<char> bestDna, int generation, int popSize, Func<int, char[]> getGenes)
