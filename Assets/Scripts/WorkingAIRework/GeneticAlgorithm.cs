@@ -41,12 +41,8 @@ namespace WorkingAIRework
 
         public void NewGeneration()
         {
-            if (Population.Count > 0)
-            {
-                CalculateFitness();
-                Population.Sort(CompareDNA);
-            }
-
+            CalculateFitness();
+            Population.Sort(CompareDNA);
             _newPopulation.Clear();
 
             for (var i = 0; i < Population.Count; i++)
