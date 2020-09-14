@@ -5,16 +5,11 @@ namespace WorkingAIRework
 {
     public class GeneticAlgorithm<T>
     {
-        private readonly int _dnaSize;
         private readonly int _elitism;
-        private readonly Func<int, float> _fitnessFunction;
-        private readonly Func<T> _getRandomGene;
         private readonly float _mutationRate;
         private readonly Random _random;
         private float _fitnessSum;
         private List<DNA<T>> _newPopulation;
-        // ReSharper disable once InconsistentNaming
-        public DNA<T> BestDNA { get; private set; }
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene,
                                 Func<int, float> fitnessFunction,
@@ -26,13 +21,13 @@ namespace WorkingAIRework
             Population = new List<DNA<T>>(populationSize);
             _newPopulation = new List<DNA<T>>(populationSize);
             _random = random;
-            _dnaSize = dnaSize;
-            _getRandomGene = getRandomGene;
-            _fitnessFunction = fitnessFunction;
 
             for (var i = 0; i < populationSize; i++)
                 Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction));
         }
+
+        // ReSharper disable once InconsistentNaming
+        public DNA<T> BestDNA { get; private set; }
 
         public List<DNA<T>> Population { get; private set; }
         public int Generation { get; private set; }
