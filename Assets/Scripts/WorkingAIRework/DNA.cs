@@ -9,17 +9,17 @@ namespace WorkingAIRework
 
         public float Fitness { get; private set; }
         public T[] Genes { get; }
-        private readonly Func<int, float> _fitnessFunction;
-        private readonly Func<T> _getRandomGene;
         private readonly Random _random;
+        private readonly Func<T> _getRandomGene;
+        private readonly Func<int, float> _calculateFitness;
 
-        public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
+        public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> calculateFitness,
                    bool shouldInitGenes = true)
         {
-            Genes = new T[size];
             _random = random;
             _getRandomGene = getRandomGene;
-            _fitnessFunction = fitnessFunction;
+            _calculateFitness = calculateFitness;
+            Genes = new T[size];
 
             if (!shouldInitGenes) return;
             for (var i = 0; i < Genes.Length; i++) Genes[i] = getRandomGene();
@@ -29,11 +29,11 @@ namespace WorkingAIRework
 
         #region Methods
 
-        public float CalculateFitness(int index) { return Fitness = _fitnessFunction(index); }
+        public float CalculateFitness(int index) { return Fitness = _calculateFitness(index); }
 
         public DNA<T> Crossover(DNA<T> otherParent)
         {
-            var child = new DNA<T>(Genes.Length, _random, _getRandomGene, _fitnessFunction, false);
+            var child = new DNA<T>(Genes.Length, _random, _getRandomGene, _calculateFitness, false);
             for (var i = 0; i < Genes.Length; i++)
                 child.Genes[i] = _random.NextDouble() < 0.5 ? Genes[i] : otherParent.Genes[i];
             return child;

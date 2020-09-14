@@ -4,141 +4,118 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using WorkingAI;
+using Random = System.Random;
 
 public class TestShakespeare : MonoBehaviour
 {
-	[Header("Genetic Algorithm")]
-	[SerializeField] string targetString = "To be, or not to be, that is the question.";
-	[SerializeField] string validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.|!#$%&/()=? ";
-	[SerializeField] int populationSize = 200;
-	[SerializeField] float mutationRate = 0.01f;
-	[SerializeField] int elitism = 5;
+    [Header("Genetic Algorithm")] [SerializeField]
+    private string targetString = "To be, or not to be, that is the question.";
 
-	[Header("Other")]
-	[SerializeField] int numCharsPerText = 15000;
-	[SerializeField] Text targetText;
-	[SerializeField] Text bestText;
-	[SerializeField] Text bestFitnessText;
-	[SerializeField] Text numGenerationsText;
-	[SerializeField] Transform populationTextParent;
-	[SerializeField] Text textPrefab;
+    [SerializeField]
+    private string validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.|!#$%&/()=? ";
 
-	private GeneticAlgorithm<char> ga;
-	private System.Random random;
+    [SerializeField] private int populationSize = 200;
+    [SerializeField] private float mutationRate = 0.01f;
+    [SerializeField] private int elitism = 5;
 
-	void Start()
-	{
-		targetText.text = targetString;
+    [Header("Other")] [SerializeField] private int numCharsPerText = 15000;
+    [SerializeField] private Text targetText;
+    [SerializeField] private Text bestText;
+    [SerializeField] private Text bestFitnessText;
+    [SerializeField] private Text numGenerationsText;
+    [SerializeField] private Transform populationTextParent;
+    [SerializeField] private Text textPrefab;
+    private readonly List<Text> textList = new List<Text>();
 
-		if (string.IsNullOrEmpty(targetString))
-		{
-			Debug.LogError("Target string is null or empty");
-			this.enabled = false;
-		}
+    private GeneticAlgorithm<char> ga;
 
-		random = new System.Random();
-		ga = new GeneticAlgorithm<char>(populationSize, targetString.Length, random, GetRandomCharacter, FitnessFunction, elitism, mutationRate);
-	}
+    private int numCharsPerTextObj;
+    private Random random;
 
-	void Update()
-	{
-		ga.NewGeneration();
+    private void Awake()
+    {
+        numCharsPerTextObj = numCharsPerText / validCharacters.Length;
+        if (numCharsPerTextObj > populationSize) numCharsPerTextObj = populationSize;
 
-		UpdateText(ga.BestGenes, ga.BestFitness, ga.Generation, ga.Population.Count, (j) => ga.Population[j].Genes);
+        var numTextObjects = Mathf.CeilToInt((float) populationSize / numCharsPerTextObj);
 
-		if (ga.BestFitness == 1)
-		{
-			this.enabled = false;
-		}
-	}
+        for (var i = 0; i < numTextObjects; i++) textList.Add(Instantiate(textPrefab, populationTextParent));
+    }
 
-	private char GetRandomCharacter()
-	{
-		int i = random.Next(validCharacters.Length);
-		return validCharacters[i];
-	}
+    private void Start()
+    {
+        targetText.text = targetString;
 
-	private float FitnessFunction(int index)
-	{
-		float score = 0;
-		DNA<char> dna = ga.Population[index];
+        if (string.IsNullOrEmpty(targetString))
+        {
+            Debug.LogError("Target string is null or empty");
+            enabled = false;
+        }
 
-		for (int i = 0; i < dna.Genes.Length; i++)
-		{
-			if (dna.Genes[i] == targetString[i])
-			{
-				score += 1;
-			}
-		}
+        random = new Random();
+        ga = new GeneticAlgorithm<char>(populationSize, targetString.Length, random, GetRandomCharacter,
+                                        FitnessFunction, elitism, mutationRate);
+    }
 
-		score /= targetString.Length;
+    private void Update()
+    {
+        ga.NewGeneration();
 
-		score = (Mathf.Pow(2, score) - 1) / (2 - 1);
+        UpdateText(ga.BestGenes, ga.BestFitness, ga.Generation, ga.Population.Count, j => ga.Population[j].Genes);
 
-		return score;
-	}
+        if (ga.BestFitness == 1) enabled = false;
+    }
 
+    private char GetRandomCharacter()
+    {
+        var i = random.Next(validCharacters.Length);
+        return validCharacters[i];
+    }
 
+    private float FitnessFunction(int index)
+    {
+        float score = 0;
+        var dna = ga.Population[index];
 
+        for (var i = 0; i < dna.Genes.Length; i++)
+            if (dna.Genes[i] == targetString[i])
+                score += 1;
 
+        score /= targetString.Length;
 
+        score = (Mathf.Pow(2, score) - 1) / (2 - 1);
 
+        return score;
+    }
 
+    private void UpdateText(char[] bestGenes, float bestFitness, int generation, int populationSize,
+                            Func<int, char[]> getGenes)
+    {
+        bestText.text = CharArrayToString(bestGenes);
+        bestFitnessText.text = bestFitness.ToString();
 
+        numGenerationsText.text = generation.ToString();
 
+        for (var i = 0; i < textList.Count; i++)
+        {
+            var sb = new StringBuilder();
+            var endIndex = i == textList.Count - 1 ? populationSize : (i + 1) * numCharsPerTextObj;
+            for (var j = i * numCharsPerTextObj; j < endIndex; j++)
+            {
+                foreach (var c in getGenes(j)) sb.Append(c);
 
+                if (j < endIndex - 1) sb.AppendLine();
+            }
 
+            textList[i].text = sb.ToString();
+        }
+    }
 
+    private string CharArrayToString(char[] charArray)
+    {
+        var sb = new StringBuilder();
+        foreach (var c in charArray) sb.Append(c);
 
-
-	private int numCharsPerTextObj;
-	private List<Text> textList = new List<Text>();
-
-	void Awake()
-	{
-		numCharsPerTextObj = numCharsPerText / validCharacters.Length;
-		if (numCharsPerTextObj > populationSize) numCharsPerTextObj = populationSize;
-
-		int numTextObjects = Mathf.CeilToInt((float)populationSize / numCharsPerTextObj);
-
-		for (int i = 0; i < numTextObjects; i++)
-		{
-			textList.Add(Instantiate(textPrefab, populationTextParent));
-		}
-	}
-
-	private void UpdateText(char[] bestGenes, float bestFitness, int generation, int populationSize, Func<int, char[]> getGenes)
-	{
-		bestText.text = CharArrayToString(bestGenes);
-		bestFitnessText.text = bestFitness.ToString();
-
-		numGenerationsText.text = generation.ToString();
-
-		for (int i = 0; i < textList.Count; i++)
-		{
-			var sb = new StringBuilder();
-			int endIndex = i == textList.Count - 1 ? populationSize : (i + 1) * numCharsPerTextObj;
-			for (int j = i * numCharsPerTextObj; j < endIndex; j++)
-			{
-				foreach (var c in getGenes(j))
-				{
-					sb.Append(c);
-				}
-				if (j < endIndex - 1) sb.AppendLine();
-			}
-
-			textList[i].text = sb.ToString();
-		}
-	}
-
-	private string CharArrayToString(char[] charArray)
-	{
-		var sb = new StringBuilder();
-		foreach (var c in charArray)
-		{
-			sb.Append(c);
-		}
-
-		return sb.ToString();
-	}
+        return sb.ToString();
+    }
 }
