@@ -31,12 +31,12 @@ namespace AI
 
         public float CalculateFitness(int index) { return Fitness = _calculateFitness(index); }
 
-        public DNA<T> Crossover(DNA<T> other)
+        public DNA<T> Crossover(DNA<T> otherParent)
         {
             var child = new DNA<T>(Genes.Length, _random, _getRandomGene, CalculateFitness, false);
 
             for (var i = 0; i < Genes.Length; i++)
-                child.Genes[i] = _random.NextDouble() < 0.5 ? Genes[i] : other.Genes[i];
+                child.Genes[i] = _random.NextDouble() < 0.5 ? Genes[i] : otherParent.Genes[i];
 
             return child;
         }
