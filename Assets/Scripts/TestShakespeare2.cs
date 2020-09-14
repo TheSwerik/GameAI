@@ -35,7 +35,7 @@ public class TestShakespeare2 : MonoBehaviour
     #endregion
 
     private readonly List<Text> _textList = new List<Text>();
-    private AI.GeneticAlgorithm<char> _ga;
+    private GeneticAlgorithm<char> _ga;
     private int _numCharsPerTextObj;
     private Random _random;
 
@@ -64,9 +64,9 @@ public class TestShakespeare2 : MonoBehaviour
         }
 
         _random = new Random();
-        _ga = new AI.GeneticAlgorithm<char>(populationSize, targetString.Length, _random,
-                                                   () => validCharacters[_random.Next(validCharacters.Length)],
-                                                   FitnessFunction, elitism, mutationRate);
+        _ga = new GeneticAlgorithm<char>(populationSize, targetString.Length, _random,
+                                         () => validCharacters[_random.Next(validCharacters.Length)],
+                                         FitnessFunction, elitism, mutationRate);
     }
 
     private void Update()
@@ -84,7 +84,7 @@ public class TestShakespeare2 : MonoBehaviour
         return Mathf.Pow(2, (float) score / targetString.Length) - 1;
     }
 
-    private void UpdateText(AI.DNA<char> bestDna, int generation, int popSize, Func<int, char[]> getGenes)
+    private void UpdateText(DNA<char> bestDna, int generation, int popSize, Func<int, char[]> getGenes)
     {
         bestText.text = new string(bestDna.Genes);
         bestFitnessText.text = bestDna.Fitness.ToString(CultureInfo.InvariantCulture);
