@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AI
 {
@@ -48,8 +47,11 @@ namespace AI
         private void CalculateFitness()
         {
             FitnessSum = 0;
-            for (var i = 0; i < Population.Count; i++) FitnessSum += Population[i].CalculateFitness(i);
-            BestDNA = Population.Max();
+            for (var i = 0; i < Population.Count; i++)
+            {
+                FitnessSum += Population[i].CalculateFitness(i);
+                if (Population[i] > BestDNA) BestDNA = Population[i];
+            }
         }
 
         private DNA<T> ChooseParent()
