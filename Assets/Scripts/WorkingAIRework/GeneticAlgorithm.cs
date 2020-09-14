@@ -5,45 +5,45 @@ namespace WorkingAIRework
 {
 	public class GeneticAlgorithm<T>
 	{
-		private Random random;
-		public int Elitism;
-		public float MutationRate;
-		private float fitnessSum;
-		private List<WorkingAIRework.DNA<T>> newPopulation;
-		public List<WorkingAIRework.DNA<T>> Population { get; private set; }
+		private readonly Random _random;
+		private readonly int _elitism;
+		private readonly float _mutationRate;
+		private float _fitnessSum;
+		private List<DNA<T>> _newPopulation;
+		public List<DNA<T>> Population { get; private set; }
 		public int Generation { get; private set; }
 		public float BestFitness { get; private set; }
-		public T[] BestGenes { get; private set; }
+		public T[] BestGenes { get; }
 
 	
-		private int dnaSize;
-		private Func<T> getRandomGene;
-		private Func<int, float> fitnessFunction;
+		private readonly int _dnaSize;
+		private readonly Func<T> _getRandomGene;
+		private readonly Func<int, float> _fitnessFunction;
 
 		public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
 								int elitism, float mutationRate = 0.01f)
 		{
 			Generation = 1;
-			Elitism = elitism;
-			MutationRate = mutationRate;
-			Population = new List<WorkingAIRework.DNA<T>>(populationSize);
-			newPopulation = new List<WorkingAIRework.DNA<T>>(populationSize);
-			this.random = random;
-			this.dnaSize = dnaSize;
-			this.getRandomGene = getRandomGene;
-			this.fitnessFunction = fitnessFunction;
+			_elitism = elitism;
+			_mutationRate = mutationRate;
+			Population = new List<DNA<T>>(populationSize);
+			_newPopulation = new List<DNA<T>>(populationSize);
+			this._random = random;
+			this._dnaSize = dnaSize;
+			this._getRandomGene = getRandomGene;
+			this._fitnessFunction = fitnessFunction;
 
 			BestGenes = new T[dnaSize];
 
 			for (int i = 0; i < populationSize; i++)
 			{
-				Population.Add(new WorkingAIRework.DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
+				Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
 			}
 		}
 
-		public void NewGeneration(int numNewDNA = 0, bool crossoverNewDNA = false)
+		public void NewGeneration(int numNewDna = 0, bool crossoverNewDna = false)
 		{
-			int finalCount = Population.Count + numNewDNA;
+			int finalCount = Population.Count + numNewDna;
 
 			if (finalCount <= 0) {
 				return;
@@ -53,39 +53,39 @@ namespace WorkingAIRework
 				CalculateFitness();
 				Population.Sort(CompareDNA);
 			}
-			newPopulation.Clear();
+			_newPopulation.Clear();
 
 			for (int i = 0; i < Population.Count; i++)
 			{
-				if (i < Elitism && i < Population.Count)
+				if (i < _elitism && i < Population.Count)
 				{
-					newPopulation.Add(Population[i]);
+					_newPopulation.Add(Population[i]);
 				}
-				else if (i < Population.Count || crossoverNewDNA)
+				else if (i < Population.Count || crossoverNewDna)
 				{
-					WorkingAIRework.DNA<T> parent1 = ChooseParent();
-					WorkingAIRework.DNA<T> parent2 = ChooseParent();
+					var parent1 = ChooseParent();
+					var parent2 = ChooseParent();
 
-					WorkingAIRework.DNA<T> child = parent1.Crossover(parent2);
+					var child = parent1.Crossover(parent2);
 
-					child.Mutate(MutationRate);
+					child.Mutate(_mutationRate);
 
-					newPopulation.Add(child);
+					_newPopulation.Add(child);
 				}
 				else
 				{
-					newPopulation.Add(new WorkingAIRework.DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
+					_newPopulation.Add(new DNA<T>(_dnaSize, _random, _getRandomGene, _fitnessFunction, shouldInitGenes: true));
 				}
 			}
 
-			List<WorkingAIRework.DNA<T>> tmpList = Population;
-			Population = newPopulation;
-			newPopulation = tmpList;
+			List<DNA<T>> tmpList = Population;
+			Population = _newPopulation;
+			_newPopulation = tmpList;
 
 			Generation++;
 		}
 	
-		private int CompareDNA(WorkingAIRework.DNA<T> a, WorkingAIRework.DNA<T> b)
+		private int CompareDNA(DNA<T> a, DNA<T> b)
 		{
 			if (a.Fitness > b.Fitness) {
 				return -1;
@@ -98,12 +98,12 @@ namespace WorkingAIRework
 
 		private void CalculateFitness()
 		{
-			fitnessSum = 0;
-			WorkingAIRework.DNA<T> best = Population[0];
+			_fitnessSum = 0;
+			var best = Population[0];
 
 			for (int i = 0; i < Population.Count; i++)
 			{
-				fitnessSum += Population[i].CalculateFitness(i);
+				_fitnessSum += Population[i].CalculateFitness(i);
 
 				if (Population[i].Fitness > best.Fitness)
 				{
@@ -115,18 +115,18 @@ namespace WorkingAIRework
 			best.Genes.CopyTo(BestGenes, 0);
 		}
 
-		private WorkingAIRework.DNA<T> ChooseParent()
+		private DNA<T> ChooseParent()
 		{
-			double randomNumber = random.NextDouble() * fitnessSum;
+			double randomNumber = _random.NextDouble() * _fitnessSum;
 
-			for (int i = 0; i < Population.Count; i++)
+			foreach (var t in Population)
 			{
-				if (randomNumber < Population[i].Fitness)
+				if (randomNumber < t.Fitness)
 				{
-					return Population[i];
+					return t;
 				}
 
-				randomNumber -= Population[i].Fitness;
+				randomNumber -= t.Fitness;
 			}
 
 			return null;
