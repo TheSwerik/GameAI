@@ -3,41 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-/// <summary>
-///     Neural Network C# (Unsupervised)
-/// </summary>
 public class NeuralNetwork : IComparable<NeuralNetwork>
 {
-    private readonly int[] _layers; //layers
-    private float _fitness; //fitness of the network
-    private float[][] _neurons; //neuron matix
-    private float[][][] _weights; //weight matrix
+    private readonly int[] _layers;
+    private float _fitness;
+    private float[][] _neurons;
+    private float[][][] _weights;
 
-    /// <summary>
-    ///     Initilizes and neural network with random weights
-    /// </summary>
-    /// <param name="layers">layers to the neural network</param>
     public NeuralNetwork(IList<int> layers)
     {
-        //deep copy of layers of this network 
         _layers = new int[layers.Count];
         for (var i = 0; i < layers.Count; i++) _layers[i] = layers[i];
-
-
-        //generate matrix
         InitNeurons();
         InitWeights();
     }
 
-    /// <summary>
-    ///     Deep copy constructor
-    /// </summary>
-    /// <param name="copyNetwork">Network to deep copy</param>
     public NeuralNetwork(NeuralNetwork copyNetwork)
     {
         _layers = new int[copyNetwork._layers.Length];
         for (var i = 0; i < copyNetwork._layers.Length; i++) _layers[i] = copyNetwork._layers[i];
-
         InitNeurons();
         InitWeights();
         CopyWeights(copyNetwork._weights);
