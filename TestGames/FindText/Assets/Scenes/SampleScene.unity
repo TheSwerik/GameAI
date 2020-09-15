@@ -1411,7 +1411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f6fb48fc3b4ad4b849798ccb3aeece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetString: To be, or not to be, that is the question.
+  targetString: Fynn ist Finn, aber nicht Fin.
   validCharacters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.|!#$%&/()=? '
   populationSize: 200
   mutationRate: 0.01
