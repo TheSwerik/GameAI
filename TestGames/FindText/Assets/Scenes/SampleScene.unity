@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.28085276, g: 0.36602777, b: 0.49832976, a: 1}
+  m_IndirectSpecularColor: {r: 0.28085247, g: 0.3660274, b: 0.4983291, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -712,7 +712,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 538690805}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1446890004}
+        m_TargetAssemblyTypeName: TestShakespeare, Assembly-CSharp
+        m_MethodName: Save
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &538690805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1026,7 +1038,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 903468783}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1446890004}
+        m_TargetAssemblyTypeName: TestShakespeare, Assembly-CSharp
+        m_MethodName: Load
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &903468783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,7 +2237,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1526153741}
   m_HandleRect: {fileID: 1526153740}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

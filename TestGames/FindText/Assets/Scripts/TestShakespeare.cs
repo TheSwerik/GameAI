@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using GameAI;
+using GameAI.Genetics;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = System.Random;
@@ -104,7 +105,8 @@ public class TestShakespeare : MonoBehaviour
         }
     }
 
-    // public void Save() => 
-    
+    public void Save() => Serializer<char>.Save(_ga);
+    public void Load() => Serializer<char>.Load(ref _ga);
+
     #endregion
 }
