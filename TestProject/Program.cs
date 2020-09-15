@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using GameAI.NEAT.neat;
 
 namespace TestProject
@@ -7,6 +8,7 @@ namespace TestProject
     {
         private static void Main(string[] args)
         {
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             var neat = new Neat(2, 1, 100);
 
             var in1 = neat.GetNode(1);

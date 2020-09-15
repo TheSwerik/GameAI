@@ -19,9 +19,9 @@ namespace GameAI.NEAT.neat
 
         public Neat(int inputSize, int outputSize, int clients)
         {
-            Reset(inputSize, outputSize, clients);
             _allConnections = new Dictionary<ConnectionGene, ConnectionGene>();
             _allNodes = new RandomHashSet<NodeGene>();
+            Reset(inputSize, outputSize, clients);
         }
 
         public static ConnectionGene GetConnection(ConnectionGene con)
