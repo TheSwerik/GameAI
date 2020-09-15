@@ -1,12 +1,15 @@
-public class Gene
+namespace GameAI.NEAT.genome
 {
-    protected int innovation_number;
+    public class Gene
+    {
+        private int _innovationNumber;
 
-    public Gene(int innovation_number) { this.innovation_number = innovation_number; }
+        public Gene(int innovationNumber) { _innovationNumber = innovationNumber; }
 
-    public Gene() { }
+        protected Gene() { }
 
-    public int getInnovation_number() { return innovation_number; }
+        public int getInnovation_number() { return _innovationNumber; }
 
-    public void setInnovation_number(int innovation_number) { this.innovation_number = innovation_number; }
+        public void setInnovation_number(int innovationNumber) { _innovationNumber = innovationNumber; }
+    }
 }

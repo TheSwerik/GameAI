@@ -1,130 +1,139 @@
-public class Genome
+using System;
+using GameAI.NEAT.data_structures;
+using GameAI.NEAT.neat;
+
+namespace GameAI.NEAT.genome
 {
-    public Genome(Neat neat)
+    public class Genome
     {
-        connections = new RandomHashSet<>();
-        nodes = new RandomHashSet<>();
-        this.neat = neat;
+        private static Random _random;
+
+        private readonly RandomHashSet<ConnectionGene> _connections;
+        private readonly Neat _neat;
+        private readonly RandomHashSet<NodeGene> _nodes;
+
+        public Genome(Neat neat)
+        {
+            _connections = new RandomHashSet<ConnectionGene>();
+            _nodes = new RandomHashSet<NodeGene>();
+            _neat = neat;
+            _random = new Random();
+        }
+
+        public static Genome CrossOver(Genome g1, Genome g2)
+        {
+            var g = g1.GetNeat().empty_genome();
+
+            var indexG1 = 0;
+            var indexG2 = 0;
+
+            while (indexG1 < g1.GetConnections().Size() && indexG2 < g2.GetConnections().Size())
+            {
+                var con1 = g1.GetConnections().Get(indexG1);
+                var con2 = g2.GetConnections().Get(indexG2);
+
+                var id1 = con1.getInnovation_number();
+                var id2 = con2.getInnovation_number();
+
+                if (id1 < id2)
+                {
+                    g.GetConnections().Add(Neat.GetConnection(con1));
+                    indexG1++;
+                }
+                else if (id1 > id2)
+                {
+                    g.GetConnections().Add(Neat.GetConnection(con2));
+                    indexG2++;
+                }
+                else
+                {
+                    g.GetConnections().Add(Neat.GetConnection(_random.NextDouble() > 0.5 ? con1 : con2));
+                    indexG1++;
+                    indexG2++;
+                }
+            }
+
+            while (indexG1 < g1.GetConnections().Size())
+            {
+                g.GetConnections().Add(g1.GetConnections().Get(indexG1));
+                indexG1++;
+            }
+
+            foreach (var c in g.GetConnections().GetData())
+            {
+                g.GetNodes().Add(c.GetFrom());
+                g.GetNodes().Add(c.GetTo());
+            }
+
+            return g;
+        }
+
+        public double Distance(Genome g2)
+        {
+            var g1 = this;
+
+            var lastInnovationG1 = g1.GetConnections().Size() == 0
+                                       ? 0
+                                       : g1.GetConnections().Get(g1.GetConnections().Size() - 1)
+                                           .getInnovation_number();
+
+            var lastInnovationG2 = g2.GetConnections().Size() == 0
+                                       ? 0
+                                       : g2.GetConnections().Get(g2.GetConnections().Size() - 1)
+                                           .getInnovation_number();
+
+            if (lastInnovationG1 < lastInnovationG2)
+            {
+                var g = g1;
+                g1 = g2;
+                g2 = g;
+            }
+
+            var indexG1 = 0;
+            var indexG2 = 0;
+
+            var excess = 0;
+            var disjoint = 0;
+            var weightDiff = 0;
+
+            while (indexG1 < g1.GetConnections().Size() && indexG2 < g2.GetConnections().Size())
+            {
+                var con1 = g1.GetConnections().Get(indexG1);
+                var con2 = g2.GetConnections().Get(indexG2);
+
+                var id1 = con1.getInnovation_number();
+                var id2 = con2.getInnovation_number();
+
+                if (id1 < id2)
+                {
+                    indexG1++;
+                    disjoint++;
+                }
+                else if (id1 > id2)
+                {
+                    indexG2++;
+                    disjoint++;
+                }
+                else
+                {
+                    weightDiff += (int) Math.Abs(con1.GetWeight() - con2.GetWeight());
+                    indexG1++;
+                    indexG2++;
+                }
+            }
+
+            if (indexG1 == g1.GetConnections().Size()) excess = g2.GetConnections().Size() - indexG2;
+            else excess = g1.GetConnections().Size() - indexG1;
+
+            double n = Math.Max(g1.GetConnections().Size(), g2.GetConnections().Size());
+            n = n < 20 ? 1 : n;
+
+            return Neat.GetC1() * excess / n + Neat.GetC2() * disjoint / n + Neat.GetC3() * weightDiff;
+        }
+
+        public void Mutate() { }
+        public RandomHashSet<ConnectionGene> GetConnections() { return _connections; }
+        public RandomHashSet<NodeGene> GetNodes() { return _nodes; }
+        public Neat GetNeat() { return _neat; }
     }
-
-    private final RandomHashSet<ConnectionGene>connections;
-    private final RandomHashSet<NodeGene>nodes;
-    private final Neat neat;
-
-    public static Genome crossOver(Genome g1, Genome g2)
-    {
-        var g = g1.getNeat().empty_genome();
-
-        var index_g1 = 0;
-        var index_g2 = 0;
-
-        while (index_g1 < g1.getConnections().size() && index_g2 < g2.getConnections().size())
-        {
-            var con_1 = g1.getConnections().get(index_g1);
-            var con_2 = g2.getConnections().get(index_g2);
-
-            int id_1 = con_1.getInnovation_number();
-            int id_2 = con_2.getInnovation_number();
-
-            if (id_1 < id_2)
-            {
-                g.getConnections().add(Neat.getConnection(con_1));
-                index_g1++;
-            }
-            else if (id_1 > id_2)
-            {
-                g.getConnections().add(Neat.getConnection(con_2));
-                index_g2++;
-            }
-            else
-            {
-                g.getConnections().add(Neat.getConnection(Math.random() > 0.5 ? con_1 : con_2));
-                index_g1++;
-                index_g2++;
-            }
-        }
-
-        while (index_g1 < g1.getConnections().size())
-        {
-            g.getConnections().add(g1.getConnections().get(index_g1));
-            index_g1++;
-        }
-
-        for (ConnectionGene c :
-        g.getConnections().getData()) {
-            g.getNodes().add(c.getFrom());
-            g.getNodes().add(c.getTo());
-        }
-
-        return g;
-    }
-
-    public double distance(Genome g2)
-    {
-        var g1 = this;
-
-        var last_innovation_g1 = g1.getConnections().size() == 0
-                                     ? 0
-                                     : g1.getConnections().get(g1.getConnections().size() - 1).getInnovation_number();
-
-        var last_innovation_g2 = g2.getConnections().size() == 0
-                                     ? 0
-                                     : g2.getConnections().get(g2.getConnections().size() - 1).getInnovation_number();
-
-        if (last_innovation_g1 < last_innovation_g2)
-        {
-            var g = g1;
-            g1 = g2;
-            g2 = g;
-        }
-
-        var index_g1 = 0;
-        var index_g2 = 0;
-
-        var excess = 0;
-        var disjoint = 0;
-        var weight_diff = 0;
-
-        while (index_g1 < g1.getConnections().size() && index_g2 < g2.getConnections().size())
-        {
-            var con_1 = g1.getConnections().get(index_g1);
-            var con_2 = g2.getConnections().get(index_g2);
-
-            int id_1 = con_1.getInnovation_number();
-            int id_2 = con_2.getInnovation_number();
-
-            if (id_1 < id_2)
-            {
-                index_g1++;
-                disjoint++;
-            }
-            else if (id_1 > id_2)
-            {
-                index_g2++;
-                disjoint++;
-            }
-            else
-            {
-                weight_diff += Math.abs(con_1.getWeight() - con_2.getWeight());
-                index_g1++;
-                index_g2++;
-            }
-        }
-
-        if (index_g1 == g1.getConnections().size()) excess = g2.getConnections().size() - index_g2;
-        else excess = g1.getConnections().size() - index_g1;
-
-        double N = Math.max(g1.getConnections().size(), g2.getConnections().size());
-        N = N < 20 ? 1 : N;
-
-        return neat.getC1() * excess / N + neat.getC2() * disjoint / N + neat.getC3() * weight_diff;
-    }
-
-    public void mutate() { }
-
-    public RandomHashSet<ConnectionGene> getConnections() { return connections; }
-
-    public RandomHashSet<NodeGene> getNodes() { return nodes; }
-
-    public Neat getNeat() { return neat; }
 }

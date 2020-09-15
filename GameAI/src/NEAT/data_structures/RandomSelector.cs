@@ -1,37 +1,41 @@
-public class RandomSelector<T>
+using System;
+using System.Collections.Generic;
+
+namespace GameAI.NEAT.data_structures
 {
-    private double total_score;
-
-    private final ArrayList<T>objects=
-    ArrayList<>();
-    private final ArrayList<Double>scores=
-    ArrayList<>();
-
-    public void add(T element, double score)
+    public class RandomSelector<T>
     {
-        objects.add(element);
-        scores.add(score);
-        total_score += score;
-    }
+        private readonly List<T> _objects = new List<T>();
+        private readonly Random _random = new Random();
+        private readonly List<double> _scores = new List<double>();
+        private double _totalScore;
 
-    public T random()
-    {
-        var v = Math.random() * total_score;
-
-        double c = 0;
-        for (var i = 0; i < objects.size(); i++)
+        public void Add(T element, double score)
         {
-            c += scores.get(i);
-            if (c > v) return objects.get(i);
+            _objects.Add(element);
+            _scores.Add(score);
+            _totalScore += score;
         }
 
-        return null;
-    }
+        public T Random()
+        {
+            var v = _random.NextDouble() * _totalScore;
 
-    public void reset()
-    {
-        objects.clear();
-        scores.clear();
-        total_score = 0;
+            var c = .0;
+            for (var i = 0; i < _objects.Count; i++)
+            {
+                c += _scores[i];
+                if (c > v) return _objects[i];
+            }
+
+            return default;
+        }
+
+        public void Reset()
+        {
+            _objects.Clear();
+            _scores.Clear();
+            _totalScore = 0;
+        }
     }
 }

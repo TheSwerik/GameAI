@@ -1,15 +1,19 @@
-public class NodeGene extends Gene {
-private double x, y;
-public NodeGene(int innovation_number) { super(innovation_number); }
-public double getX() { return x; }
-public void setX(double x) { this.x = x; }
-public double getY() { return y; }
-public void setY(double y) { this.y = y; }
-
-public boolean equals(Object o)
+namespace GameAI.NEAT.genome
 {
-    return o instanceof NodeGene && innovation_number == ((NodeGene) o).getInnovation_number();
-}
+    public class NodeGene : Gene
+    {
+        private double _x, _y;
+        public NodeGene(int innovationNumber) : base(innovationNumber) { }
+        public double GetX() { return _x; }
+        public void SetX(double x) { _x = x; }
+        public double GetY() { return _y; }
+        public void SetY(double y) { _y = y; }
 
-public int hashCode() { return innovation_number; }
+        public override bool Equals(object obj)
+        {
+            return obj is NodeGene gene && getInnovation_number() == gene.getInnovation_number();
+        }
+
+        public override int GetHashCode() { return getInnovation_number(); }
+    }
 }

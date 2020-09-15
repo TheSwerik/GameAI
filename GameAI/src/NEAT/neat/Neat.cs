@@ -1,123 +1,98 @@
-public class Neat
+using System;
+using System.Collections.Generic;
+using GameAI.NEAT.data_structures;
+using GameAI.NEAT.genome;
+
+namespace GameAI.NEAT.neat
 {
-    private readonly double C1 = 1;
-    private readonly double C2 = 1;
-    private readonly double C3 = 1;
-    private int input_size;
-    private int max_clients;
-    private int MAX_NODES = (int) Math.pow(2, 20);
-    private int output_size;
-
-    public Neat(int input_size, int output_size, int clients)
+    public class Neat
     {
-        reset(input_size, output_size, clients);
-        all_connections = new HashMap<>();
-        all_nodes = new RandomHashSet<>();
-    }
+        private const double C1 = 1;
+        private const double C2 = 1;
+        private const double C3 = 1;
+        public static readonly int MaxNodes = (int) Math.Pow(2, 20);
+        private readonly Dictionary<ConnectionGene, ConnectionGene> _allConnections;
+        private readonly RandomHashSet<NodeGene> _allNodes;
+        private int _inputSize;
+        private int _maxClients;
+        private int _outputSize;
 
-    public static final
-    private final
-    private final
-    private final
-    private final HashMap<ConnectionGene, ConnectionGene>all_connections;
-    private final RandomHashSet<NodeGene>all_nodes;
-
-    public static ConnectionGene getConnection(ConnectionGene con)
-    {
-        var c = new ConnectionGene(con.getFrom(), con.getTo());
-        c.setWeight(con.getWeight());
-        c.setEnabled(con.isEnabled());
-        return c;
-    }
-
-    public static void main(String[] args)
-    {
-        var neat = new Neat(2, 1, 100);
-
-        var in1 = neat.getNode(1);
-        var in2 = neat.getNode(2);
-        var out1 = neat.getNode(3);
-
-        var con11 = neat.getConnection(in1, out1);
-        var con12 = neat.getConnection(in2, out1);
-
-        System.out.println(con11.getInnovation_number());
-        System.out.println(con12.getInnovation_number());
-
-
-        var con11_2 = neat.getConnection(in1, out1);
-        con11_2.setWeight(3);
-
-        System.out.println(con11_2.getWeight());
-
-        //Genome g = neat.empty_genome();
-        //System.out.println(g.getNodes().size());
-    }
-
-    public Genome empty_genome()
-    {
-        var g = new Genome(this);
-        for (var i = 0; i < input_size + output_size; i++) g.getNodes().add(getNode(i + 1));
-        return g;
-    }
-
-    public void reset(int input_size, int output_size, int clients)
-    {
-        this.input_size = input_size;
-        this.output_size = output_size;
-        max_clients = clients;
-
-        all_connections.clear();
-        all_nodes.clear();
-
-        for (var i = 0; i < input_size; i++)
+        public Neat(int inputSize, int outputSize, int clients)
         {
-            var n = getNode();
-            n.setX(0.1);
-            n.setY((i + 1) / (double) (input_size + 1));
+            Reset(inputSize, outputSize, clients);
+            _allConnections = new Dictionary<ConnectionGene, ConnectionGene>();
+            _allNodes = new RandomHashSet<NodeGene>();
         }
 
-        for (var i = 0; i < output_size; i++)
+        public static ConnectionGene GetConnection(ConnectionGene con)
         {
-            var n = getNode();
-            n.setX(0.9);
-            n.setY((i + 1) / (double) (output_size + 1));
-        }
-    }
-
-    public ConnectionGene getConnection(NodeGene node1, NodeGene node2)
-    {
-        var connectionGene = new ConnectionGene(node1, node2);
-
-        if (all_connections.containsKey(connectionGene))
-        {
-            connectionGene.setInnovation_number(all_connections.get(connectionGene).getInnovation_number());
-        }
-        else
-        {
-            connectionGene.setInnovation_number(all_connections.size() + 1);
-            all_connections.put(connectionGene, connectionGene);
+            var c = new ConnectionGene(con.GetFrom(), con.GetTo());
+            c.SetWeight(con.GetWeight());
+            c.SetEnabled(con.IsEnabled());
+            return c;
         }
 
-        return connectionGene;
+        public Genome empty_genome()
+        {
+            var g = new Genome(this);
+            for (var i = 0; i < _inputSize + _outputSize; i++) g.GetNodes().Add(GetNode(i + 1));
+            return g;
+        }
+
+        public void Reset(int inputSize, int outputSize, int clients)
+        {
+            _inputSize = inputSize;
+            _outputSize = outputSize;
+            _maxClients = clients;
+
+            _allConnections.Clear();
+            _allNodes.Clear();
+
+            for (var i = 0; i < inputSize; i++)
+            {
+                var n = GetNode();
+                n.SetX(0.1);
+                n.SetY((i + 1) / (double) (inputSize + 1));
+            }
+
+            for (var i = 0; i < outputSize; i++)
+            {
+                var n = GetNode();
+                n.SetX(0.9);
+                n.SetY((i + 1) / (double) (outputSize + 1));
+            }
+        }
+
+        public ConnectionGene getConnection(NodeGene node1, NodeGene node2)
+        {
+            var connectionGene = new ConnectionGene(node1, node2);
+
+            if (_allConnections.ContainsKey(connectionGene))
+            {
+                connectionGene.setInnovation_number(_allConnections[connectionGene].getInnovation_number());
+            }
+            else
+            {
+                connectionGene.setInnovation_number(_allConnections.Count + 1);
+                _allConnections.Add(connectionGene, connectionGene);
+            }
+
+            return connectionGene;
+        }
+
+        public NodeGene GetNode()
+        {
+            var n = new NodeGene(_allNodes.Size() + 1);
+            _allNodes.Add(n);
+            return n;
+        }
+
+        public NodeGene GetNode(int id) { return id <= _allNodes.Size() ? _allNodes.Get(id - 1) : GetNode(); }
+
+        public static double GetC1() { return C1; }
+
+        public static double GetC2() { return C2; }
+
+        public static double GetC3() { return C3; }
     }
-
-    public NodeGene getNode()
-    {
-        var n = new NodeGene(all_nodes.size() + 1);
-        all_nodes.add(n);
-        return n;
-    }
-
-    public NodeGene getNode(int id) { return id <= all_nodes.size() ? all_nodes.get(id - 1) : getNode(); }
-
-    public int getOutput_size() { return output_size; }
-
-    public int getInput_size() { return input_size; }
-
-    public double getC1() { return C1; }
-
-    public double getC2() { return C2; }
-
-    public double getC3() { return C3; }
 }
