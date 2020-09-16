@@ -10,7 +10,7 @@ namespace GameAI.NEAT.DataStructures
         private readonly Random _random;
         private readonly HashSet<T> _set;
         public List<T> Data { get; }
-        public int Size => Data.Count;
+        public int Count => Data.Count;
 
         public RandomHashSet()
         {
@@ -25,7 +25,7 @@ namespace GameAI.NEAT.DataStructures
 
         private bool Contains(T value) { return _set.Contains(value); }
 
-        public T random_element() { return Data[_random.Next(0, Size)]; }
+        public T random_element() { return Data[_random.Next(0, Count)]; }
 
         public void Add(T value)
         {

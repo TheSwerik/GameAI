@@ -32,7 +32,7 @@ namespace GameAI.NEAT.genome
             var indexG1 = 0;
             var indexG2 = 0;
 
-            while (indexG1 < Connections.Size && indexG2 < g2.Connections.Size)
+            while (indexG1 < Connections.Count && indexG2 < g2.Connections.Count)
             {
                 var con1 = Connections[indexG1];
                 var con2 = g2.Connections[indexG2];
@@ -58,7 +58,7 @@ namespace GameAI.NEAT.genome
                 }
             }
 
-            while (indexG1 < Connections.Size)
+            while (indexG1 < Connections.Count)
             {
                 g.Connections.Add(Connections[indexG1]);
                 indexG1++;
@@ -77,13 +77,13 @@ namespace GameAI.NEAT.genome
         {
             var g1 = this;
 
-            var lastInnovationG1 = g1.Connections.Size == 0
+            var lastInnovationG1 = g1.Connections.Count == 0
                                        ? 0
-                                       : g1.Connections[g1.Connections.Size - 1].InnovationNumber;
+                                       : g1.Connections[g1.Connections.Count - 1].InnovationNumber;
 
-            var lastInnovationG2 = g2.Connections.Size == 0
+            var lastInnovationG2 = g2.Connections.Count == 0
                                        ? 0
-                                       : g2.Connections[g2.Connections.Size - 1].InnovationNumber;
+                                       : g2.Connections[g2.Connections.Count - 1].InnovationNumber;
 
             if (lastInnovationG1 < lastInnovationG2)
             {
@@ -99,7 +99,7 @@ namespace GameAI.NEAT.genome
             var disjoint = 0;
             var weightDiff = 0;
 
-            while (indexG1 < g1.Connections.Size && indexG2 < g2.Connections.Size)
+            while (indexG1 < g1.Connections.Count && indexG2 < g2.Connections.Count)
             {
                 var con1 = g1.Connections[indexG1];
                 var con2 = g2.Connections[indexG2];
@@ -125,10 +125,10 @@ namespace GameAI.NEAT.genome
                 }
             }
 
-            if (indexG1 == g1.Connections.Size) excess = g2.Connections.Size - indexG2;
-            else excess = g1.Connections.Size - indexG1;
+            if (indexG1 == g1.Connections.Count) excess = g2.Connections.Count - indexG2;
+            else excess = g1.Connections.Count - indexG1;
 
-            double n = Math.Max(g1.Connections.Size, g2.Connections.Size);
+            double n = Math.Max(g1.Connections.Count, g2.Connections.Count);
             n = n < 20 ? 1 : n;
 
             return Neat.C1 * excess / n + Neat.C2 * disjoint / n + Neat.C3 * weightDiff;

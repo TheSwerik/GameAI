@@ -86,12 +86,12 @@ namespace GameAI.NEAT.neat
 
         public NodeGene GetNode()
         {
-            var n = new NodeGene(_allNodes.Size + 1);
+            var n = new NodeGene(_allNodes.Count + 1);
             _allNodes.Add(n);
             return n;
         }
 
-        public NodeGene GetNode(int id) { return id <= _allNodes.Size ? _allNodes[id - 1] : GetNode(); }
+        public NodeGene GetNode(int id) { return id <= _allNodes.Count ? _allNodes[id - 1] : GetNode(); }
 
         #endregion
     }
