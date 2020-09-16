@@ -2,9 +2,15 @@ namespace GameAI.NEAT.genome
 {
     public class NodeGene : Gene
     {
-        public NodeGene(int innovationNumber) { InnovationNumber = innovationNumber; }
+        #region Fields
+
         public double X { get; set; }
         public double Y { get; set; }
+        public NodeGene(int innovationNumber) { InnovationNumber = innovationNumber; }
+
+        #endregion
+
+        #region Methods
 
         public override bool Equals(object obj)
         {
@@ -12,5 +18,7 @@ namespace GameAI.NEAT.genome
         }
 
         public override int GetHashCode() { return InnovationNumber; }
+
+        #endregion
     }
 }

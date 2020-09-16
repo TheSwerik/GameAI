@@ -7,12 +7,18 @@ namespace GameAI.NEAT.neat
 {
     public class Neat
     {
+        #region Fields
+
         public static readonly int MaxNodes = (int) Math.Pow(2, 20);
         private readonly Dictionary<ConnectionGene, ConnectionGene> _allConnections;
         private readonly RandomHashSet<NodeGene> _allNodes;
         private int _inputSize;
         private int _maxClients;
         private int _outputSize;
+
+        public double C1 { get; } = 1;
+        public double C2 { get; } = 1;
+        public double C3 { get; } = 1;
 
         public Neat(int inputSize, int outputSize, int clients)
         {
@@ -21,9 +27,9 @@ namespace GameAI.NEAT.neat
             Reset(inputSize, outputSize, clients);
         }
 
-        public double C1 { get; } = 1;
-        public double C2 { get; } = 1;
-        public double C3 { get; } = 1;
+        #endregion
+
+        #region Methods
 
         public static ConnectionGene GetConnection(ConnectionGene con)
         {
@@ -86,5 +92,7 @@ namespace GameAI.NEAT.neat
         }
 
         public NodeGene GetNode(int id) { return id <= _allNodes.Size ? _allNodes.Get(id - 1) : GetNode(); }
+
+        #endregion
     }
 }
