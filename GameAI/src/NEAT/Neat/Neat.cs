@@ -26,10 +26,7 @@ namespace GameAI.NEAT.neat
 
         public static ConnectionGene GetConnection(ConnectionGene con)
         {
-            var c = new ConnectionGene(con.GetFrom(), con.GetTo());
-            c.SetWeight(con.GetWeight());
-            c.SetEnabled(con.IsEnabled());
-            return c;
+            return new ConnectionGene(con.From, con.To) {Weight = con.Weight, Enabled = con.Enabled};
         }
 
         public Genome empty_genome()

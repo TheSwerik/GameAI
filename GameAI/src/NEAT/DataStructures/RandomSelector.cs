@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace GameAI.NEAT.data_structures
+namespace GameAI.NEAT.DataStructures
 {
     public class RandomSelector<T>
     {

@@ -61,8 +61,8 @@ namespace GameAI.NEAT.genome
 
             foreach (var c in g.GetConnections().Data)
             {
-                g.GetNodes().Add(c.GetFrom());
-                g.GetNodes().Add(c.GetTo());
+                g.GetNodes().Add(c.From);
+                g.GetNodes().Add(c.To);
             }
 
             return g;
@@ -116,7 +116,7 @@ namespace GameAI.NEAT.genome
                 }
                 else
                 {
-                    weightDiff += (int) Math.Abs(con1.GetWeight() - con2.GetWeight());
+                    weightDiff += (int) Math.Abs(con1.Weight - con2.Weight);
                     indexG1++;
                     indexG2++;
                 }

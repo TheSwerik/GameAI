@@ -23,9 +23,9 @@ namespace TestProject
 
 
             var con112 = neat.getConnection(in1, out1);
-            con112.SetWeight(3);
+            con112.Weight = 3;
 
-            Console.WriteLine(con112.GetWeight());
+            Console.WriteLine(con112.Weight);
 
             //Genome g = neat.empty_genome();
             //System.out.println(g.getNodes().size());
