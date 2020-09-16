@@ -77,8 +77,8 @@ namespace GameAI.NEAT.neat
             }
             else
             {
-                connectionGene.InnovationNumber = _allConnections.Count + 1;
                 _allConnections.Add(connectionGene, connectionGene);
+                connectionGene.InnovationNumber = _allConnections.Count;
             }
 
             return connectionGene;
@@ -91,7 +91,7 @@ namespace GameAI.NEAT.neat
             return n;
         }
 
-        public NodeGene GetNode(int id) { return id <= _allNodes.Size ? _allNodes.Get(id - 1) : GetNode(); }
+        public NodeGene GetNode(int id) { return id <= _allNodes.Size ? _allNodes[id - 1] : GetNode(); }
 
         #endregion
     }

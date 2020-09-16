@@ -26,11 +26,10 @@ namespace GameAI.NEAT.DataStructures
 
         public T Random()
         {
-            var v = _random.NextDouble() * _totalScore;
-            var c = .0;
+            var scoreThreshold = _random.NextDouble() * _totalScore;
             for (var i = 0; i < _objects.Count; i++)
-                if ((c += _scores[i]) > v)
-                    return _objects[i];
+                if (_scores[i] > scoreThreshold) return _objects[i];
+                else scoreThreshold -= _scores[i];
             return default;
         }
 

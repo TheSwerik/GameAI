@@ -25,7 +25,7 @@ namespace GameAI.NEAT.DataStructures
 
         private bool Contains(T value) { return _set.Contains(value); }
 
-        public T random_element() { return _set.Count > 0 ? Data[_random.Next(0, Size)] : default; }
+        public T random_element() { return Data[_random.Next(0, Size)]; }
 
         public void Add(T value)
         {
@@ -39,8 +39,6 @@ namespace GameAI.NEAT.DataStructures
             Data.Clear();
         }
 
-        public T Get(int index) { return index >= 0 && index < Size ? Data[index] : default; }
-
         public void Remove(int index)
         {
             _set.Remove(Data[index]);
@@ -52,6 +50,8 @@ namespace GameAI.NEAT.DataStructures
             _set.Remove(value);
             Data.Remove(value);
         }
+
+        public T this[int i] => Data[i];
 
         #endregion
     }

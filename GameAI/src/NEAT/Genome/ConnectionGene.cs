@@ -23,9 +23,7 @@ namespace GameAI.NEAT.genome
 
         public override bool Equals(object obj)
         {
-            if (!(obj is ConnectionGene)) return false;
-            var c = (ConnectionGene) obj;
-            return From.Equals(c.From) && To.Equals(c.To);
+            return obj is ConnectionGene cg && From.Equals(cg.From) && To.Equals(cg.To);
         }
 
         public override int GetHashCode() { return From.InnovationNumber * Neat.MaxNodes + To.InnovationNumber; }

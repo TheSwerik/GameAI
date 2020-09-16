@@ -34,8 +34,8 @@ namespace GameAI.NEAT.genome
 
             while (indexG1 < g1.Connections.Size && indexG2 < g2.Connections.Size)
             {
-                var con1 = g1.Connections.Get(indexG1);
-                var con2 = g2.Connections.Get(indexG2);
+                var con1 = g1.Connections[indexG1];
+                var con2 = g2.Connections[indexG2];
 
                 var id1 = con1.InnovationNumber;
                 var id2 = con2.InnovationNumber;
@@ -60,7 +60,7 @@ namespace GameAI.NEAT.genome
 
             while (indexG1 < g1.Connections.Size)
             {
-                g.Connections.Add(g1.Connections.Get(indexG1));
+                g.Connections.Add(g1.Connections[indexG1]);
                 indexG1++;
             }
 
@@ -79,11 +79,11 @@ namespace GameAI.NEAT.genome
 
             var lastInnovationG1 = g1.Connections.Size == 0
                                        ? 0
-                                       : g1.Connections.Get(g1.Connections.Size - 1).InnovationNumber;
+                                       : g1.Connections[g1.Connections.Size - 1].InnovationNumber;
 
             var lastInnovationG2 = g2.Connections.Size == 0
                                        ? 0
-                                       : g2.Connections.Get(g2.Connections.Size - 1).InnovationNumber;
+                                       : g2.Connections[g2.Connections.Size - 1].InnovationNumber;
 
             if (lastInnovationG1 < lastInnovationG2)
             {
@@ -95,14 +95,14 @@ namespace GameAI.NEAT.genome
             var indexG1 = 0;
             var indexG2 = 0;
 
-            var excess = 0;
+            int excess;
             var disjoint = 0;
             var weightDiff = 0;
 
             while (indexG1 < g1.Connections.Size && indexG2 < g2.Connections.Size)
             {
-                var con1 = g1.Connections.Get(indexG1);
-                var con2 = g2.Connections.Get(indexG2);
+                var con1 = g1.Connections[indexG1];
+                var con2 = g2.Connections[indexG2];
 
                 var id1 = con1.InnovationNumber;
                 var id2 = con2.InnovationNumber;
