@@ -1,5 +1,5 @@
 using System;
-using GameAI.NEAT.data_structures;
+using GameAI.NEAT.DataStructures;
 using GameAI.NEAT.neat;
 
 namespace GameAI.NEAT.genome
@@ -59,7 +59,7 @@ namespace GameAI.NEAT.genome
                 indexG1++;
             }
 
-            foreach (var c in g.GetConnections().GetData())
+            foreach (var c in g.GetConnections().Data)
             {
                 g.GetNodes().Add(c.GetFrom());
                 g.GetNodes().Add(c.GetTo());

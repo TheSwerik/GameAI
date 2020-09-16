@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using GameAI.NEAT.data_structures;
+using GameAI.NEAT.DataStructures;
 using GameAI.NEAT.genome;
 
 namespace GameAI.NEAT.neat
