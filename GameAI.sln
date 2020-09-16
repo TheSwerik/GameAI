@@ -3,6 +3,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAI", "GameAI\GameAI.csproj", "{153E5F0E-B163-467B-BE6B-8A2365BB682C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visualization", "Visualization\Visualization.csproj", "{272868B1-D4BD-4FA0-ABE2-8A782EC987DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +19,9 @@ Global
 		{1B3E4819-6BBD-47CC-A41A-291FDFDF3457}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B3E4819-6BBD-47CC-A41A-291FDFDF3457}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B3E4819-6BBD-47CC-A41A-291FDFDF3457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{272868B1-D4BD-4FA0-ABE2-8A782EC987DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272868B1-D4BD-4FA0-ABE2-8A782EC987DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272868B1-D4BD-4FA0-ABE2-8A782EC987DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272868B1-D4BD-4FA0-ABE2-8A782EC987DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
