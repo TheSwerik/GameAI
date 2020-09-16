@@ -5,28 +5,31 @@ namespace GameAI.NEAT.DataStructures
 {
     public class RandomHashSet<T>
     {
+        #region Fields
+
         private readonly Random _random;
         private readonly HashSet<T> _set;
+        public List<T> Data { get; }
+        public int Size => Data.Count;
 
         public RandomHashSet()
         {
-            Data = new List<T>();
-            _set = new HashSet<T>();
             _random = new Random();
+            _set = new HashSet<T>();
+            Data = new List<T>();
         }
 
-        public List<T> Data { get; }
+        #endregion
+
+        #region Methods
 
         private bool Contains(T value) { return _set.Contains(value); }
 
-        public T random_element() { return _set.Count > 0 ? Data[_random.Next(0, Size())] : default; }
-
-        public int Size() { return Data.Count; }
+        public T random_element() { return _set.Count > 0 ? Data[_random.Next(0, Size)] : default; }
 
         public void Add(T value)
         {
-            if (_set.Contains(value)) return;
-            _set.Add(value);
+            if (!_set.Add(value)) return;
             Data.Add(value);
         }
 
@@ -36,11 +39,10 @@ namespace GameAI.NEAT.DataStructures
             Data.Clear();
         }
 
-        public T Get(int index) { return index >= 0 && index < Size() ? Data[index] : default; }
+        public T Get(int index) { return index >= 0 && index < Size ? Data[index] : default; }
 
         public void Remove(int index)
         {
-            if (index < 0 || index >= Size()) return;
             _set.Remove(Data[index]);
             Data.RemoveAt(index);
         }
@@ -50,5 +52,7 @@ namespace GameAI.NEAT.DataStructures
             _set.Remove(value);
             Data.Remove(value);
         }
+
+        #endregion
     }
 }

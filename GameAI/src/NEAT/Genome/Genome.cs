@@ -6,7 +6,12 @@ namespace GameAI.NEAT.genome
 {
     public class Genome
     {
+        #region Fields
+
         private static Random _random;
+        public RandomHashSet<ConnectionGene> Connections { get; }
+        public Neat Neat { get; }
+        public RandomHashSet<NodeGene> Nodes { get; }
 
         public Genome(Neat neat)
         {
@@ -16,9 +21,9 @@ namespace GameAI.NEAT.genome
             _random = new Random();
         }
 
-        public RandomHashSet<ConnectionGene> Connections { get; }
-        public Neat Neat { get; }
-        public RandomHashSet<NodeGene> Nodes { get; }
+        #endregion
+
+        #region Methods
 
         public static Genome CrossOver(Genome g1, Genome g2)
         {
@@ -27,7 +32,7 @@ namespace GameAI.NEAT.genome
             var indexG1 = 0;
             var indexG2 = 0;
 
-            while (indexG1 < g1.Connections.Size() && indexG2 < g2.Connections.Size())
+            while (indexG1 < g1.Connections.Size && indexG2 < g2.Connections.Size)
             {
                 var con1 = g1.Connections.Get(indexG1);
                 var con2 = g2.Connections.Get(indexG2);
@@ -53,7 +58,7 @@ namespace GameAI.NEAT.genome
                 }
             }
 
-            while (indexG1 < g1.Connections.Size())
+            while (indexG1 < g1.Connections.Size)
             {
                 g.Connections.Add(g1.Connections.Get(indexG1));
                 indexG1++;
@@ -72,13 +77,13 @@ namespace GameAI.NEAT.genome
         {
             var g1 = this;
 
-            var lastInnovationG1 = g1.Connections.Size() == 0
+            var lastInnovationG1 = g1.Connections.Size == 0
                                        ? 0
-                                       : g1.Connections.Get(g1.Connections.Size() - 1).InnovationNumber;
+                                       : g1.Connections.Get(g1.Connections.Size - 1).InnovationNumber;
 
-            var lastInnovationG2 = g2.Connections.Size() == 0
+            var lastInnovationG2 = g2.Connections.Size == 0
                                        ? 0
-                                       : g2.Connections.Get(g2.Connections.Size() - 1).InnovationNumber;
+                                       : g2.Connections.Get(g2.Connections.Size - 1).InnovationNumber;
 
             if (lastInnovationG1 < lastInnovationG2)
             {
@@ -94,7 +99,7 @@ namespace GameAI.NEAT.genome
             var disjoint = 0;
             var weightDiff = 0;
 
-            while (indexG1 < g1.Connections.Size() && indexG2 < g2.Connections.Size())
+            while (indexG1 < g1.Connections.Size && indexG2 < g2.Connections.Size)
             {
                 var con1 = g1.Connections.Get(indexG1);
                 var con2 = g2.Connections.Get(indexG2);
@@ -120,15 +125,17 @@ namespace GameAI.NEAT.genome
                 }
             }
 
-            if (indexG1 == g1.Connections.Size()) excess = g2.Connections.Size() - indexG2;
-            else excess = g1.Connections.Size() - indexG1;
+            if (indexG1 == g1.Connections.Size) excess = g2.Connections.Size - indexG2;
+            else excess = g1.Connections.Size - indexG1;
 
-            double n = Math.Max(g1.Connections.Size(), g2.Connections.Size());
+            double n = Math.Max(g1.Connections.Size, g2.Connections.Size);
             n = n < 20 ? 1 : n;
 
             return Neat.C1 * excess / n + Neat.C2 * disjoint / n + Neat.C3 * weightDiff;
         }
 
         public void Mutate() { }
+
+        #endregion
     }
 }

@@ -4,16 +4,22 @@ namespace GameAI.NEAT.genome
 {
     public class ConnectionGene : Gene
     {
+        #region Fields
+
+        public bool Enabled { get; set; } = true;
+        public NodeGene From { get; set; }
+        public NodeGene To { get; set; }
+        public double Weight { get; set; }
+
         public ConnectionGene(NodeGene from, NodeGene to)
         {
             From = from;
             To = to;
         }
 
-        public bool Enabled { get; set; } = true;
-        public NodeGene From { get; set; }
-        public NodeGene To { get; set; }
-        public double Weight { get; set; }
+        #endregion
+
+        #region Methods
 
         public override bool Equals(object obj)
         {
@@ -23,5 +29,7 @@ namespace GameAI.NEAT.genome
         }
 
         public override int GetHashCode() { return From.InnovationNumber * Neat.MaxNodes + To.InnovationNumber; }
+
+        #endregion
     }
 }
