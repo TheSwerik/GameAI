@@ -32,8 +32,8 @@ namespace GameAI.NEAT.genome
                 var con1 = g1.GetConnections().Get(indexG1);
                 var con2 = g2.GetConnections().Get(indexG2);
 
-                var id1 = con1.getInnovation_number();
-                var id2 = con2.getInnovation_number();
+                var id1 = con1.InnovationNumber;
+                var id2 = con2.InnovationNumber;
 
                 if (id1 < id2)
                 {
@@ -74,13 +74,11 @@ namespace GameAI.NEAT.genome
 
             var lastInnovationG1 = g1.GetConnections().Size() == 0
                                        ? 0
-                                       : g1.GetConnections().Get(g1.GetConnections().Size() - 1)
-                                           .getInnovation_number();
+                                       : g1.GetConnections().Get(g1.GetConnections().Size() - 1).InnovationNumber;
 
             var lastInnovationG2 = g2.GetConnections().Size() == 0
                                        ? 0
-                                       : g2.GetConnections().Get(g2.GetConnections().Size() - 1)
-                                           .getInnovation_number();
+                                       : g2.GetConnections().Get(g2.GetConnections().Size() - 1).InnovationNumber;
 
             if (lastInnovationG1 < lastInnovationG2)
             {
@@ -101,8 +99,8 @@ namespace GameAI.NEAT.genome
                 var con1 = g1.GetConnections().Get(indexG1);
                 var con2 = g2.GetConnections().Get(indexG2);
 
-                var id1 = con1.getInnovation_number();
-                var id2 = con2.getInnovation_number();
+                var id1 = con1.InnovationNumber;
+                var id2 = con2.InnovationNumber;
 
                 if (id1 < id2)
                 {

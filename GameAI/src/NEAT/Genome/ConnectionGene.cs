@@ -22,9 +22,6 @@ namespace GameAI.NEAT.genome
             return From.Equals(c.From) && To.Equals(c.To);
         }
 
-        public override int GetHashCode()
-        {
-            return From.getInnovation_number() * Neat.MaxNodes + To.getInnovation_number();
-        }
+        public override int GetHashCode() { return From.InnovationNumber * Neat.MaxNodes + To.InnovationNumber; }
     }
 }

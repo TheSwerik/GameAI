@@ -66,11 +66,11 @@ namespace GameAI.NEAT.neat
 
             if (_allConnections.ContainsKey(connectionGene))
             {
-                connectionGene.setInnovation_number(_allConnections[connectionGene].getInnovation_number());
+                connectionGene.InnovationNumber = _allConnections[connectionGene].InnovationNumber;
             }
             else
             {
-                connectionGene.setInnovation_number(_allConnections.Count + 1);
+                connectionGene.InnovationNumber = _allConnections.Count + 1;
                 _allConnections.Add(connectionGene, connectionGene);
             }
 
