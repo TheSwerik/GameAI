@@ -32,7 +32,7 @@ namespace GameAI.NEAT.neat
         public Genome empty_genome()
         {
             var g = new Genome(this);
-            for (var i = 0; i < _inputSize + _outputSize; i++) g.GetNodes().Add(GetNode(i + 1));
+            for (var i = 0; i < _inputSize + _outputSize; i++) g.Nodes.Add(GetNode(i + 1));
             return g;
         }
 
