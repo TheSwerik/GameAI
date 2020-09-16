@@ -2,12 +2,9 @@ namespace GameAI.NEAT.genome
 {
     public class NodeGene : Gene
     {
-        private double _x, _y;
+        public double X;
+        public double Y;
         public NodeGene(int innovationNumber) : base(innovationNumber) { }
-        public double GetX() { return _x; }
-        public void SetX(double x) { _x = x; }
-        public double GetY() { return _y; }
-        public void SetY(double y) { _y = y; }
 
         public override bool Equals(object obj)
         {

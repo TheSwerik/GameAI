@@ -51,15 +51,15 @@ namespace GameAI.NEAT.neat
             for (var i = 0; i < inputSize; i++)
             {
                 var n = GetNode();
-                n.SetX(0.1);
-                n.SetY((i + 1) / (double) (inputSize + 1));
+                n.X = 0.1;
+                n.Y = (i + 1) / (double) (inputSize + 1);
             }
 
             for (var i = 0; i < outputSize; i++)
             {
                 var n = GetNode();
-                n.SetX(0.9);
-                n.SetY((i + 1) / (double) (outputSize + 1));
+                n.X = 0.9;
+                n.Y = (i + 1) / (double) (outputSize + 1);
             }
         }
 

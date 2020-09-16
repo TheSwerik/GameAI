@@ -1,8 +1,7 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAI", "GameAI\GameAI.csproj", "{A6C1DF2F-CCD5-42EE-B19D-594663BA70EA}"
-EndProject
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{1B3E4819-6BBD-47CC-A41A-291FDFDF3457}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAI", "GameAI\GameAI.csproj", "{153E5F0E-B163-467B-BE6B-8A2365BB682C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,7 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A6C1DF2F-CCD5-42EE-B19D-594663BA70EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{153E5F0E-B163-467B-BE6B-8A2365BB682C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{153E5F0E-B163-467B-BE6B-8A2365BB682C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{153E5F0E-B163-467B-BE6B-8A2365BB682C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{153E5F0E-B163-467B-BE6B-8A2365BB682C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B3E4819-6BBD-47CC-A41A-291FDFDF3457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B3E4819-6BBD-47CC-A41A-291FDFDF3457}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B3E4819-6BBD-47CC-A41A-291FDFDF3457}.Release|Any CPU.ActiveCfg = Release|Any CPU
