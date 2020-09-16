@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GameAI.NEAT.genome;
 
 namespace GameAI.NEAT.DataStructures
 {
@@ -29,6 +30,21 @@ namespace GameAI.NEAT.DataStructures
 
         public void Add(T value)
         {
+            if (!_set.Add(value)) return;
+            Data.Add(value);
+        }
+
+        public void AddSorted(T value)
+        {
+            var valueAsGene = value as Gene;
+            for (var i = 0; i < Count; i++)
+            {
+                if (valueAsGene!.InnovationNumber >= (Data[i] as Gene)!.InnovationNumber) continue;
+                Data[i] = value;
+                _set.Add(value);
+                return;
+            }
+
             if (!_set.Add(value)) return;
             Data.Add(value);
         }
