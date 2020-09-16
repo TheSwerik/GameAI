@@ -2,6 +2,6 @@ namespace GameAI.NEAT.genome
 {
     public class Gene
     {
-        public int InnovationNumber;
+        public int InnovationNumber { get; set; }
     }
 }

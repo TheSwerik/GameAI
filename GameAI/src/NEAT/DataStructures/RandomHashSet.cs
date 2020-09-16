@@ -7,7 +7,6 @@ namespace GameAI.NEAT.DataStructures
     {
         private readonly Random _random;
         private readonly HashSet<T> _set;
-        public readonly List<T> Data;
 
         public RandomHashSet()
         {
@@ -15,6 +14,8 @@ namespace GameAI.NEAT.DataStructures
             _set = new HashSet<T>();
             _random = new Random();
         }
+
+        public List<T> Data { get; }
 
         private bool Contains(T value) { return _set.Contains(value); }
 

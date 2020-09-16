@@ -8,10 +8,6 @@ namespace GameAI.NEAT.genome
     {
         private static Random _random;
 
-        public readonly RandomHashSet<ConnectionGene> Connections;
-        public readonly Neat Neat;
-        public readonly RandomHashSet<NodeGene> Nodes;
-
         public Genome(Neat neat)
         {
             Connections = new RandomHashSet<ConnectionGene>();
@@ -19,6 +15,10 @@ namespace GameAI.NEAT.genome
             Neat = neat;
             _random = new Random();
         }
+
+        public RandomHashSet<ConnectionGene> Connections { get; }
+        public Neat Neat { get; }
+        public RandomHashSet<NodeGene> Nodes { get; }
 
         public static Genome CrossOver(Genome g1, Genome g2)
         {
@@ -126,7 +126,7 @@ namespace GameAI.NEAT.genome
             double n = Math.Max(g1.Connections.Size(), g2.Connections.Size());
             n = n < 20 ? 1 : n;
 
-            return Neat.GetC1() * excess / n + Neat.GetC2() * disjoint / n + Neat.GetC3() * weightDiff;
+            return Neat.C1 * excess / n + Neat.C2 * disjoint / n + Neat.C3 * weightDiff;
         }
 
         public void Mutate() { }

@@ -4,16 +4,16 @@ namespace GameAI.NEAT.genome
 {
     public class ConnectionGene : Gene
     {
-        public bool Enabled = true;
-        public NodeGene From;
-        public NodeGene To;
-        public double Weight;
-
         public ConnectionGene(NodeGene from, NodeGene to)
         {
             From = from;
             To = to;
         }
+
+        public bool Enabled { get; set; } = true;
+        public NodeGene From { get; set; }
+        public NodeGene To { get; set; }
+        public double Weight { get; set; }
 
         public override bool Equals(object obj)
         {
