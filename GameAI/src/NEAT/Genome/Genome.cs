@@ -10,8 +10,8 @@ namespace GameAI.NEAT.genome
 
         private static Random _random;
         public RandomHashSet<ConnectionGene> Connections { get; }
-        public Neat Neat { get; }
         public RandomHashSet<NodeGene> Nodes { get; }
+        public Neat Neat { get; }
 
         public Genome(Neat neat)
         {
@@ -25,16 +25,16 @@ namespace GameAI.NEAT.genome
 
         #region Methods
 
-        public static Genome CrossOver(Genome g1, Genome g2)
+        public Genome CrossOver(Genome g2)
         {
-            var g = g1.Neat.empty_genome();
+            var g = Neat.empty_genome();
 
             var indexG1 = 0;
             var indexG2 = 0;
 
-            while (indexG1 < g1.Connections.Size && indexG2 < g2.Connections.Size)
+            while (indexG1 < Connections.Size && indexG2 < g2.Connections.Size)
             {
-                var con1 = g1.Connections[indexG1];
+                var con1 = Connections[indexG1];
                 var con2 = g2.Connections[indexG2];
 
                 var id1 = con1.InnovationNumber;
@@ -58,9 +58,9 @@ namespace GameAI.NEAT.genome
                 }
             }
 
-            while (indexG1 < g1.Connections.Size)
+            while (indexG1 < Connections.Size)
             {
-                g.Connections.Add(g1.Connections[indexG1]);
+                g.Connections.Add(Connections[indexG1]);
                 indexG1++;
             }
 
